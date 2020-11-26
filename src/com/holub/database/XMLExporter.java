@@ -8,6 +8,7 @@ public class XMLExporter implements Table.Exporter
     private 	  int	 width;
     private String tableName;
     private String[] columnNames;
+    private static int order = 1;
     public XMLExporter( Writer out )
     {	this.out = out;
     }
@@ -25,12 +26,18 @@ public class XMLExporter implements Table.Exporter
             this.columnNames[i] = columnNames.next().toString();
         }
 
-        out.write("<" + this.tableName +">\n");
-        System.out.print("<" + this.tableName +">\n");
+        out.write("<" + this.tableName + ">\n");
+        System.out.print("<" + this.tableName + ">\n");
     }
 
     public void storeRow( Iterator data ) throws IOException
     {	int i = 0;
+        boolean hasText = false;
+        if(data.hasNext()){
+            hasText = true;
+            out.write("\t<" + this.tableName + ">\n");
+            System.out.print("\t<" + this.tableName + ">\n");
+        }
 
         while( data.hasNext() )
         {	Object datum = data.next();
@@ -51,6 +58,11 @@ public class XMLExporter implements Table.Exporter
                 i++;
             }
         }
+        if(hasText){
+            out.write("\t</" + this.tableName + ">\n");
+            System.out.print("\t</" + this.tableName + ">\n");
+            this.order++;
+        }
     }
 
     public void startTable() throws IOException {
@@ -58,7 +70,7 @@ public class XMLExporter implements Table.Exporter
         System.out.print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
     }
     public void endTable()   throws IOException {
-        out.write("</" + this.tableName +" >\n");
-        System.out.print("</" + this.tableName +" >\n");
+        out.write("</" + this.tableName + ">\n");
+        System.out.print("</" + this.tableName + ">\n");
     }
 }

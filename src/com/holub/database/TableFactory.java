@@ -89,14 +89,22 @@ public class TableFactory
 	public static Table load( String name, File directory )
 													throws IOException
 	{
-		if( !(name.endsWith( ".csv" ) || name.endsWith( ".CSV" )) )
+		if(name.endsWith( ".csv" ) || name.endsWith( ".CSV" )){
+			Reader in = new FileReader( new File( directory, name ));
+			Table loaded = new ConcreteTable( new CSVImporter( in ));
+			in.close();
+			return loaded;
+		}
+		else if(name.endsWith(".xml") || name.endsWith(".XML")){
+			Reader in = new FileReader( new File( directory, name ));
+			Table loaded = new ConcreteTable( new XMLImporter( in ));
+			in.close();
+			return loaded;
+		}
+		else {
 			throw new java.io.IOException(
-					 "Filename (" +name+ ") does not end in "
-					+"supported extension (.csv)" );
-
-		Reader in = new FileReader( new File( directory, name ));
-		Table loaded = new ConcreteTable( new CSVImporter( in ));
-		in.close();
-		return loaded;
+					"Filename (" + name + ") does not end in "
+							+ "supported extension (.csv)");
+		}
 	}
 }
