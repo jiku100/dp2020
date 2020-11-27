@@ -62,7 +62,6 @@ public class XMLImporter implements Table.Importer
                 }
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

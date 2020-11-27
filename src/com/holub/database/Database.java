@@ -166,7 +166,7 @@ import com.holub.tools.ThrowableContainer;
  *	an optional subproduction.
 <PRE>
 statement       ::= 
-                    INSERT  INTO IDENTIFIER [LP idList RP]
+                    INSERT  INTO IDENTIFIER [LP  RP]
                                       VALUES LP exprList RP
                 |   CREATE  DATABASE IDENTIFIER
                 |   CREATE  TABLE    IDENTIFIER LP declarations RP

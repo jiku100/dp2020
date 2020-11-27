@@ -71,7 +71,7 @@ import com.holub.tools.ArrayIterator;
 	 * Create a table with the given name and columns.
 	 * 
 	 * @param tableName the name of the table.
-	 * @param an        array of Strings that specify the column names.
+	 * @param columnNames array of Strings that specify the column names.
 	 */
 	public ConcreteTable(String tableName, String[] columnNames) {
 		this.tableName = tableName;
@@ -405,6 +405,7 @@ import com.holub.tools.ArrayIterator;
 	// @select-start
 	// ----------------------------------------------------------------------
 	public Table select(Selector where) {
+
 		Table resultTable = new ConcreteTable(null, (String[]) columnNames.clone());
 
 		Results currentRow = (Results) rows();
@@ -450,6 +451,18 @@ import com.holub.tools.ArrayIterator;
 		if (otherTables == null || otherTables.length == 0)
 			return select(where, requestedColumns);
 
+		if(requestedColumns == null){
+			List colums = new ArrayList();
+			for(var s: columnNames){
+				colums.add(s);
+			}
+			for(int i = 0; i<otherTables.length;i++){
+				for(int j = 0; j<otherTables[i].rows().columnCount();j++){
+					colums.add(otherTables[i].rows().columnName(j));
+				}
+			}
+			requestedColumns = (String[])colums.toArray(new String[colums.size()]);
+		}
 		// Make the current table not be a special case by effectively
 		// prefixing it to the otherTables array.
 
