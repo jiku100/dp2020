@@ -16,11 +16,19 @@ import java.sql.*;
 
 public class exporterTest {
     public static void main(String[] args) throws IOException {
-        Table address = TableFactory.load("xml_test.xml", "c:/dp2020");
-        Writer writer = new FileWriter("c:/dp2020/" + address.name() +".xml", false);
-        XMLExporter xml = new XMLExporter(writer);
-        address.export(xml);
-        xml.accept(new DataInfoVisitor());
-        writer.close();
+//        Table address = TableFactory.load("xml_test.xml", "c:/dp2020");
+//        Writer writer = new FileWriter("c:/dp2020/" + address.name() +".xml", false);
+//        XMLExporter xml = new XMLExporter(writer);
+//        address.export(xml);
+//        xml.accept(new get());
+//        writer.close();
+        Reader in = new FileReader( new File( "c:/dp2020", "address.csv" ));
+        CSVImporter csv = new CSVImporter(in);
+        System.out.println(csv.accept(new rowNumVisitor()));
+
+        in = new FileReader( new File( "c:/dp2020", "xml_test.xml" ));
+        XMLImporter xml = new XMLImporter(in);
+        System.out.println(xml.accept(new rowNumVisitor()));
+
     }
 }

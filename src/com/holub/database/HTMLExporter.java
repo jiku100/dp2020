@@ -3,7 +3,7 @@ package com.holub.database;
 import java.io.*;
 import java.util.*;
 
-public class HTMLExporter implements Table.Exporter, ExporterAccept
+public class HTMLExporter implements Table.Exporter
 {	private final Writer out;
     private 	  int	 width;
     private       int    height;
@@ -88,10 +88,5 @@ public class HTMLExporter implements Table.Exporter, ExporterAccept
         System.out.print("\t</body>\n");
         out.write("</html>\n");
         System.out.print("</html>\n");
-    }
-
-    @Override
-    public void accept(ExporterVisitor visitor) {
-        visitor.visit(this, this.tableName, this.width, this.height, this.columnNames);
     }
 }

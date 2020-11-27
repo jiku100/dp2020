@@ -10,7 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.util.*;
 
-public class XMLImporter implements Table.Importer
+public class XMLImporter implements Table.Importer, ImporterAccept
 {	private BufferedReader  in;			// null once end-of-file reached
     private String[]        columnNames;
     private String          tableName;
@@ -22,10 +22,7 @@ public class XMLImporter implements Table.Importer
             ? (BufferedReader)in
             : new BufferedReader(in);
         this.num = 0;
-    }
-    public void startTable()			throws IOException
-    {
-        try {
+        try{
             InputSource is = new InputSource(this.in);
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
             doc.getDocumentElement().normalize();
@@ -34,8 +31,15 @@ public class XMLImporter implements Table.Importer
             this.tableName = element.getNodeName();
 
             // child node 취득
-            list = element.getElementsByTagName(tableName);
-
+            this.list = element.getElementsByTagName(tableName);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void startTable()			throws IOException
+    {
+        try {
             int length = 0;
             if(list.getLength() > 0) {
                 for(int i=0; i<list.getLength(); i++) {
@@ -96,4 +100,13 @@ public class XMLImporter implements Table.Importer
     }
 
     public void endTable() throws IOException {}
+
+    public int loadRowNumber()
+    {   return list.getLength();
+    }
+
+    @Override
+    public int accept(ImporterVisitor visitor) {
+        return visitor.visit(this);
+    }
 }
