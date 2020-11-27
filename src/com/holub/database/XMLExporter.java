@@ -3,9 +3,10 @@ package com.holub.database;
 import java.io.*;
 import java.util.*;
 
-public class XMLExporter implements Table.Exporter
+public class XMLExporter implements Table.Exporter, ExporterAccept
 {	private final Writer out;
     private 	  int	 width;
+    private       int    height;
     private String tableName;
     private String[] columnNames;
     private static int order = 1;
@@ -19,7 +20,8 @@ public class XMLExporter implements Table.Exporter
                                Iterator columnNames ) throws IOException
 
     {	this.width = width;
-        this.tableName = tableName;
+        this.height = height;
+        this.tableName = tableName == null ? "anonymous" : tableName;
         this.columnNames = new String[width];
 
         for(int i = 0; columnNames.hasNext(); i++){
@@ -72,5 +74,10 @@ public class XMLExporter implements Table.Exporter
     public void endTable()   throws IOException {
         out.write("</" + this.tableName + ">\n");
         System.out.print("</" + this.tableName + ">\n");
+    }
+
+    @Override
+    public void accept(ExporterVisitor visitor) {
+        visitor.visit(this, this.tableName, this.width, this.height, this.columnNames);
     }
 }

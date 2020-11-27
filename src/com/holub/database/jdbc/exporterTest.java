@@ -17,8 +17,10 @@ import java.sql.*;
 public class exporterTest {
     public static void main(String[] args) throws IOException {
         Table address = TableFactory.load("xml_test.xml", "c:/dp2020");
-        Writer writer = new FileWriter("c:/dp2020/test.csv", false);
-        address.export(new CSVExporter(writer));
+        Writer writer = new FileWriter("c:/dp2020/" + address.name() +".xml", false);
+        XMLExporter xml = new XMLExporter(writer);
+        address.export(xml);
+        xml.accept(new DataInfoVisitor());
         writer.close();
     }
 }

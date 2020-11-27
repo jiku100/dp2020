@@ -3,9 +3,12 @@ package com.holub.database;
 import java.io.*;
 import java.util.*;
 
-public class HTMLExporter implements Table.Exporter
+public class HTMLExporter implements Table.Exporter, ExporterAccept
 {	private final Writer out;
     private 	  int	 width;
+    private       int    height;
+    private String tableName;
+    private String[] columnNames;
 
     public HTMLExporter( Writer out )
     {	this.out = out;
@@ -17,6 +20,12 @@ public class HTMLExporter implements Table.Exporter
                                Iterator columnNames ) throws IOException
 
     {	this.width = width;
+        this.tableName = tableName == null ? "anonymous" : tableName;
+        this.columnNames = new String[width];
+        for(int i = 0; columnNames.hasNext(); i++){
+            this.columnNames[i] = columnNames.next().toString();
+        }
+
         out.write("\t<head>\n");
         System.out.print("\t<head>\n");
         out.write("\t\t<title>");
@@ -79,5 +88,10 @@ public class HTMLExporter implements Table.Exporter
         System.out.print("\t</body>\n");
         out.write("</html>\n");
         System.out.print("</html>\n");
+    }
+
+    @Override
+    public void accept(ExporterVisitor visitor) {
+        visitor.visit(this, this.tableName, this.width, this.height, this.columnNames);
     }
 }

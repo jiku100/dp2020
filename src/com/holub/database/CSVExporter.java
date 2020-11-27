@@ -60,9 +60,12 @@ import java.util.*;
  * @see CSVImporter
  */
 
-public class CSVExporter implements Table.Exporter
+public class CSVExporter implements Table.Exporter, ExporterAccept
 {	private final Writer out;
 	private 	  int	 width;
+	private       int    height;
+	private String tableName;
+	private String[] columnNames;
 
 	public CSVExporter( Writer out )
 	{	this.out = out;
@@ -74,6 +77,14 @@ public class CSVExporter implements Table.Exporter
 							   Iterator columnNames ) throws IOException
 
 	{	this.width = width;
+		this.height = height;
+		this.tableName = tableName == null ? "anonymous" : tableName;
+		this.columnNames = new String[width];
+
+		for(int i = 0; columnNames.hasNext(); i++){
+			this.columnNames[i] = columnNames.next().toString();
+		}
+
 		out.write(tableName == null ? "<anonymous>" : tableName );
 		out.write("\n");
 		storeRow( columnNames ); // comma separated list of columns ids
@@ -98,4 +109,9 @@ public class CSVExporter implements Table.Exporter
 
 	public void startTable() throws IOException {/*nothing to do*/}
 	public void endTable()   throws IOException {/*nothing to do*/}
+
+	@Override
+	public void accept(ExporterVisitor visitor) {
+		visitor.visit(this, this.tableName, this.width, this.height, this.columnNames);
+	}
 }
