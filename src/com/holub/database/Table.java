@@ -285,6 +285,7 @@ public interface Table extends Serializable, Cloneable
 	{	void 	 startTable()		throws IOException;
 		String   loadTableName()	throws IOException;
 		int 	 loadWidth()		throws IOException;
+		int loadHeight()			throws IOException;
 		Iterator loadColumnNames()	throws IOException;
 		Iterator loadRow()			throws IOException;
 		void 	 endTable()			throws IOException;

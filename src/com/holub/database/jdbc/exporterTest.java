@@ -1,5 +1,6 @@
 package com.holub.database.jdbc;
 import com.holub.database.*;
+import com.holub.tools.ArrayIterator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -12,6 +13,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.sql.*;
+import java.util.StringTokenizer;
 
 
 public class exporterTest {
@@ -22,13 +24,48 @@ public class exporterTest {
 //        address.export(xml);
 //        xml.accept(new get());
 //        writer.close();
-        Reader in = new FileReader( new File( "c:/dp2020", "address.csv" ));
-        CSVImporter csv = new CSVImporter(in);
-        System.out.println(csv.accept(new rowNumVisitor()));
 
-        in = new FileReader( new File( "c:/dp2020", "xml_test.xml" ));
-        XMLImporter xml = new XMLImporter(in);
-        System.out.println(xml.accept(new rowNumVisitor()));
+//        Table address_csv = TableFactory.load("address.csv", "c:/dp2020");
+        Table address_xml = TableFactory.load("xml_test.xml", "c:/dp2020");
 
+//        File file = new File("address_Info_csv.txt");
+//        if(file.exists()){
+//            System.out.println("exists");
+//        }
+//        BufferedReader in  = new BufferedReader(new FileReader(file));
+//        String test = in.readLine();
+//        System.out.println(test);
+//        if(test.endsWith("csv"))
+//            System.out.println("!!!");
+//        test = in.readLine();
+//        test = in.readLine();
+//        System.out.println(test);
+//        test = in.readLine();
+//        CSVImporter csv =  new CSVImporter(new FileReader(new File("address.csv")));
+//        csv.startTable();
+//        System.out.println(csv.loadWidth());
+//        System.out.println(Integer.valueOf(test.substring(18, test.length())));
+//
+//        if(csv.loadWidth() == Integer.valueOf(test.substring(18, test.length()))){
+//            System.out.println("asdadasdas");
+//        }
+//        test = in.readLine();
+//        System.out.println(test.substring(18, test.length()));
+//
+//        String[] a = test.substring(17, test.length()).split(" ");
+//        ArrayIterator columns = (ArrayIterator) csv.loadColumnNames();
+//        String[] b = (String[]) columns.toArray();
+//
+//        for(int i = 0; i<csv.loadWidth();i++){
+//            if(!b[i].equals(a[i])){
+//                System.out.println("Not Matched Column Names");
+//            }
+//        }
+//        test = in.readLine();
+//        System.out.println(test);
+//
+//        test = in.readLine();
+//        System.out.println(test);
+//    }
     }
 }

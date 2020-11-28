@@ -68,7 +68,7 @@ public class CSVImporter implements Table.Importer, ImporterAccept
 {	private BufferedReader  in;			// null once end-of-file reached
 	private String[]        columnNames;
 	private String          tableName;
-
+	private static int 		height = 0;
 	public CSVImporter( Reader in )
 	{	this.in = in instanceof BufferedReader
 						? (BufferedReader)in
@@ -85,6 +85,9 @@ public class CSVImporter implements Table.Importer, ImporterAccept
 	public int loadWidth()			    throws IOException
 	{	return columnNames.length;
 	}
+	public int loadHeight()				throws IOException
+	{   return this.height;
+	}
 	public Iterator loadColumnNames()	throws IOException
 	{	return new ArrayIterator(columnNames);  //{=CSVImporter.ArrayIteratorCall}
 	}
@@ -95,13 +98,18 @@ public class CSVImporter implements Table.Importer, ImporterAccept
 		{	String line = in.readLine();
 			if( line == null )
 				in = null;
-			else
+			else{
 				row = new ArrayIterator( line.split("\\s*,\\s*"));
+				height++;
+			}
 		}
 		return row;
 	}
 
-	public void endTable() throws IOException {}
+	public void endTable() throws IOException {
+		accept(new CheckEditVisitor());
+		accept(new DataInfoVisitor());
+	}
 
 	@Override
 	public int accept(ImporterVisitor visitor) {

@@ -21,8 +21,10 @@ public class XMLImporter implements Table.Importer, ImporterAccept
     {	this.in = in instanceof BufferedReader
             ? (BufferedReader)in
             : new BufferedReader(in);
-        this.num = 0;
-        try{
+    }
+    public void startTable()			throws IOException
+    {
+        try {
             InputSource is = new InputSource(this.in);
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
             doc.getDocumentElement().normalize();
@@ -32,14 +34,6 @@ public class XMLImporter implements Table.Importer, ImporterAccept
 
             // child node 취득
             this.list = element.getElementsByTagName(tableName);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void startTable()			throws IOException
-    {
-        try {
             int length = 0;
             if(list.getLength() > 0) {
                 for(int i=0; i<list.getLength(); i++) {
@@ -76,6 +70,9 @@ public class XMLImporter implements Table.Importer, ImporterAccept
     public int loadWidth()			    throws IOException
     {	return columnNames.length;
     }
+    public int loadHeight()             throws IOException
+    {   return list.getLength();
+    }
     public Iterator loadColumnNames()	throws IOException
     {	return new ArrayIterator(columnNames);  //{=CSVImporter.ArrayIteratorCall}
     }
@@ -99,10 +96,9 @@ public class XMLImporter implements Table.Importer, ImporterAccept
         return row;
     }
 
-    public void endTable() throws IOException {}
-
-    public int loadRowNumber()
-    {   return list.getLength();
+    public void endTable() throws IOException {
+        accept(new CheckEditVisitor());
+        accept(new DataInfoVisitor());
     }
 
     @Override
