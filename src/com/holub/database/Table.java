@@ -233,7 +233,7 @@ public interface Table extends Serializable, Cloneable
 	 *				operation.
 	 */
 	Table select(Selector where, Collection requestedColumns,
-												Collection other);
+				 Collection other);
 
 	/** Convenience method, translates Collection to String array, then
 	 *  calls String-array version.
@@ -261,10 +261,10 @@ public interface Table extends Serializable, Cloneable
 	public interface Exporter				//{=Table.Exporter}
 	{	public void startTable()			throws IOException;
 		public void storeMetadata(
-					String tableName,
-					int width,
-					int height,
-					Iterator columnNames )	throws IOException;
+				String tableName,
+				int width,
+				int height,
+				Iterator columnNames )	throws IOException;
 		public void storeRow(Iterator data) throws IOException;
 		public void endTable()			 	throws IOException;
 	}
@@ -285,7 +285,7 @@ public interface Table extends Serializable, Cloneable
 	{	void 	 startTable()		throws IOException;
 		String   loadTableName()	throws IOException;
 		int 	 loadWidth()		throws IOException;
-		int loadHeight()			throws IOException;
+		int		 loadHeight()		throws IOException;
 		Iterator loadColumnNames()	throws IOException;
 		Iterator loadRow()			throws IOException;
 		void 	 endTable()			throws IOException;

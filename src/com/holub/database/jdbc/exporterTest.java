@@ -18,15 +18,15 @@ import java.util.StringTokenizer;
 
 public class exporterTest {
     public static void main(String[] args) throws IOException {
-//        Table address = TableFactory.load("xml_test.xml", "c:/dp2020");
-//        Writer writer = new FileWriter("c:/dp2020/" + address.name() +".xml", false);
-//        XMLExporter xml = new XMLExporter(writer);
-//        address.export(xml);
+        Table address = TableFactory.load("address.csv", "c:/dp2020");
+        Writer writer = new FileWriter("c:/dp2020/" + address.name() +".html", false);
+        HTMLExporter xml = new HTMLExporter(writer);
+        address.export(xml);
 //        xml.accept(new get());
-//        writer.close();
+        writer.close();
 
 //        Table address_csv = TableFactory.load("address.csv", "c:/dp2020");
-        Table address_xml = TableFactory.load("xml_test.xml", "c:/dp2020");
+//        Table address_xml = TableFactory.load("xml_test.xml", "c:/dp2020");
 
 //        File file = new File("address_Info_csv.txt");
 //        if(file.exists()){

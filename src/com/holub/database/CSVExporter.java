@@ -65,7 +65,6 @@ public class CSVExporter implements Table.Exporter
 	private 	  int	 width;
 	private       int    height;
 	private String tableName;
-	private String[] columnNames;
 
 	public CSVExporter( Writer out )
 	{	this.out = out;
@@ -79,11 +78,7 @@ public class CSVExporter implements Table.Exporter
 	{	this.width = width;
 		this.height = height;
 		this.tableName = tableName == null ? "anonymous" : tableName;
-		this.columnNames = new String[width];
 
-		for(int i = 0; columnNames.hasNext(); i++){
-			this.columnNames[i] = columnNames.next().toString();
-		}
 
 		out.write(tableName == null ? "<anonymous>" : tableName );
 		out.write("\n");

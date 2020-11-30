@@ -6,9 +6,7 @@ import java.util.*;
 public class HTMLExporter implements Table.Exporter
 {	private final Writer out;
     private 	  int	 width;
-    private       int    height;
     private String tableName;
-    private String[] columnNames;
 
     public HTMLExporter( Writer out )
     {	this.out = out;
@@ -21,10 +19,6 @@ public class HTMLExporter implements Table.Exporter
 
     {	this.width = width;
         this.tableName = tableName == null ? "anonymous" : tableName;
-        this.columnNames = new String[width];
-        for(int i = 0; columnNames.hasNext(); i++){
-            this.columnNames[i] = columnNames.next().toString();
-        }
 
         out.write("\t<head>\n");
         System.out.print("\t<head>\n");
@@ -40,9 +34,29 @@ public class HTMLExporter implements Table.Exporter
         System.out.print("\t<body>\n");
         out.write("\t\t<table>\n");
         System.out.print("\t\t<table>\n");
+        out.write("\t\t\t<thead>\n");
+        System.out.print("\t\t\t<thead>\n");
+        out.write("\t\t\t\t<tr>\n");
+        System.out.print("\t\t\t\t<tr>\n");
+        if(columnNames.hasNext()){
+            out.write("\t\t\t\t\t<th>");
+            System.out.print("\t\t\t\t\t<th>");
+        }
+        while( columnNames.hasNext() ) {
+            Object datum = columnNames.next();
+            out.write(datum.toString() + "</th>");
+            System.out.print(datum.toString() + "</th>");
+            if(columnNames.hasNext()){
+                out.write("<th>");
+                System.out.print("<th>");
+            }
+        }
+        out.write("\n\t\t\t\t</tr>\n");
+        System.out.print("\n\t\t\t\t</tr>\n");
+        out.write("\t\t\t</thead>\n");
+        System.out.print("\t\t\t</thead>\n");
         out.write("\t\t\t<tbody>\n");
         System.out.print("\t\t\t<tbody>\n");
-        storeRow( columnNames ); // comma separated list of columns ids
     }
 
     public void storeRow( Iterator data ) throws IOException
