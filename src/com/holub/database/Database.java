@@ -26,6 +26,7 @@
  */
 package com.holub.database;
 
+import java.net.StandardSocketOptions;
 import java.util.*;
 import java.io.*;
 import java.text.NumberFormat;
@@ -402,6 +403,7 @@ public final class Database
 		USE			= tokens.create( "'USE"		),
 		VALUES 		= tokens.create( "'VALUES"	),
 		WHERE		= tokens.create( "'WHERE"	),
+		DISTINCT	= tokens.create( "'DISTINCT"),
 
 		WORK		= tokens.create( "WORK|TRAN(SACTION)?"		),
 		ADDITIVE	= tokens.create( "\\+|-" 					),
@@ -796,7 +798,11 @@ public final class Database
 			affectedRows = doDelete( tableName, expr() );
 		}
 		else if( in.matchAdvance(SELECT) != null )
-		{	List columns = idList();
+		{	boolean distinct = false;
+			if(in.matchAdvance(DISTINCT) != null)
+				distinct = true;
+
+			List columns = idList();
 
 			String into = null;
 			if( in.matchAdvance(INTO) != null )
@@ -809,6 +815,67 @@ public final class Database
 								? null : expr();
 			Table result = doSelect(columns, into,
 								requestedTableNames, where );
+
+			if(distinct != false){
+				Cursor rows = result.rows();
+				if(columns == null){
+					columns = new ArrayList();
+					for(int k = 0; k<rows.columnCount(); k++){
+						columns.add(rows.columnName(k));
+					}
+				}
+				String[] targetColumns = new String[columns.size()];
+				int i = 0;
+				Iterator column = columns.iterator();
+
+				while (column.hasNext())
+					targetColumns[i++] = column.next().toString();
+
+				Table distinct_table = new ConcreteTable(null, targetColumns);
+
+
+				ArrayList<Object>[] values = new ArrayList[targetColumns.length];
+				for(int k = 0; k<targetColumns.length;k++){
+					values[k] = new ArrayList<Object>();
+				}
+				ArrayList<Object> check = new ArrayList<Object>();
+				int numOverlap = 0;
+				while(rows.advance()) {
+					for (var columnName : columns) {
+						Object value = rows.column(columnName.toString());
+						check.add(value);
+					}
+
+					if(values[0].isEmpty()){
+						for(int k = 0; k < values.length; k++)
+							values[k].add(check.get(k));
+					}
+					else {
+						int max_idx = values[0].size();
+						for (int j = 0; j < max_idx; j++) {
+							for (int k = 0; k < values.length; k++) {
+								if (values[k].get(j).equals((check.get(k))))
+									numOverlap++;
+							}
+							if (numOverlap == values.length)
+								break;
+							else
+								numOverlap = 0;
+						}
+					}
+					if (numOverlap != values.length) {
+						String[] newRow = new String[check.size()];
+						Iterator row = check.iterator();
+						i = 0;
+						while (row.hasNext())
+							newRow[i++] = row.next().toString();
+						distinct_table.insert(targetColumns, newRow);
+					}
+					numOverlap = 0;
+					check.clear();
+				}
+				result = distinct_table;
+			}
 			return result;
 		}
 		else

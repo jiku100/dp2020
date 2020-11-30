@@ -91,13 +91,19 @@ public class TableFactory
 	{
 		if(name.endsWith( ".csv" ) || name.endsWith( ".CSV" )){
 			Reader in = new FileReader( new File( directory, name ));
-			Table loaded = new ConcreteTable( new CSVImporter( in ));
+			CSVImporter csv = new CSVImporter(in);
+			Table loaded = new ConcreteTable(csv);
+			csv.accept(new CheckEditVisitor());
+			csv.accept(new DataInfoVisitor());
 			in.close();
 			return loaded;
 		}
 		else if(name.endsWith(".xml") || name.endsWith(".XML")){
 			Reader in = new FileReader( new File( directory, name ));
-			Table loaded = new ConcreteTable( new XMLImporter( in ));
+			XMLImporter xml =  new XMLImporter( in );
+			Table loaded = new ConcreteTable(xml);
+			xml.accept(new CheckEditVisitor());
+			xml.accept(new DataInfoVisitor());
 			in.close();
 			return loaded;
 		}

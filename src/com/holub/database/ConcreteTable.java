@@ -224,9 +224,7 @@ import com.holub.tools.ArrayIterator;
 			return columnNames[index];
 		}
 
-		public Object column(String columnName) {
-			return row[indexOf(columnName)];
-		}
+		public Object column(String columnName) { return row[indexOf(columnName)];	}
 
 		public Iterator columns() {
 			return new ArrayIterator(row);
