@@ -34,7 +34,7 @@ public class DataInfoVisitor implements ImporterVisitor {
             out.close();
         }
         catch (Exception e){
-            e.printStackTrace();
+            System.out.println("File open failed");
         }
         finally {
             return 0;
@@ -56,7 +56,7 @@ public class DataInfoVisitor implements ImporterVisitor {
             out.close();
         }
         catch (Exception e){
-            e.printStackTrace();
+            System.out.println("File open failed");
         }
         finally {
             return 0;
