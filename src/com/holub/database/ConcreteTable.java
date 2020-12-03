@@ -140,6 +140,7 @@ import com.holub.tools.ArrayIterator;
 		for (int i = 0; i < intoTheseColumns.length; ++i)
 			newRow[indexOf(intoTheseColumns[i])] = values[i];
 
+
 		doInsert(newRow);
 		return 1;
 	}

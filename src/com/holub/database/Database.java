@@ -36,6 +36,8 @@ import com.holub.text.Token;
 import com.holub.text.TokenSet;
 import com.holub.text.Scanner;
 import com.holub.text.ParseFailure;
+import com.holub.tools.ArrayIterator;
+import com.holub.tools.Order;
 import com.holub.tools.ThrowableContainer;
 
 /***
@@ -404,6 +406,9 @@ public final class Database
 		VALUES 		= tokens.create( "'VALUES"	),
 		WHERE		= tokens.create( "'WHERE"	),
 		DISTINCT	= tokens.create( "'DISTINCT"),
+		ORDERBY		= tokens.create( "'ORDER BY"),
+		DESC		= tokens.create( "'DESC"),
+		ASC			= tokens.create( "'ASC"),
 
 		WORK		= tokens.create( "WORK|TRAN(SACTION)?"		),
 		ADDITIVE	= tokens.create( "\\+|-" 					),
@@ -799,11 +804,12 @@ public final class Database
 		}
 		else if( in.matchAdvance(SELECT) != null )
 		{	boolean distinct = false;
+			boolean orderby = false;
 			if(in.matchAdvance(DISTINCT) != null)
 				distinct = true;
 
 			List columns = idList();
-
+			String[] originalColumns = null;
 			String into = null;
 			if( in.matchAdvance(INTO) != null )
 				into = in.required(IDENTIFIER);
@@ -813,13 +819,49 @@ public final class Database
 
 			Expression where = (in.matchAdvance(WHERE) == null)
 								? null : expr();
+
+			Map orderColumns = new LinkedHashMap<Integer, Integer>();
+			if(in.matchAdvance(ORDERBY) != null)
+			{
+				if(columns == null){
+					Table result = doSelect(columns, into,
+							requestedTableNames, where );
+					Cursor rows = result.rows();
+					columns = new ArrayList<>();
+					for(int k = 0; k<rows.columnCount(); k++){
+						columns.add(rows.columnName(k));
+					}
+				}
+				originalColumns = new String[columns.size()];
+				int idx = 0;
+				for(var s: columns)
+					originalColumns[idx++] = s.toString();
+				orderby = true;
+				String id;
+				int columnSize = originalColumns.length - 1;
+				int desc = 0;
+
+				while( (id = in.required(IDENTIFIER)) != null ) {
+					desc = 0;
+					columns.add(id);
+					columnSize++;
+					if(in.matchAdvance(DESC) != null){
+						desc++;
+					}
+					else if(in.matchAdvance(ASC) != null){
+					}
+					orderColumns.put(columnSize, desc);
+					if (in.matchAdvance(COMMA) == null)
+						break;
+				}
+			}
 			Table result = doSelect(columns, into,
 								requestedTableNames, where );
 
-			if(distinct != false){
+			if(distinct){
 				Cursor rows = result.rows();
 				if(columns == null){
-					columns = new ArrayList();
+					columns = new ArrayList<>();
 					for(int k = 0; k<rows.columnCount(); k++){
 						columns.add(rows.columnName(k));
 					}
@@ -875,6 +917,30 @@ public final class Database
 					check.clear();
 				}
 				result = distinct_table;
+			}
+
+			if(orderby){
+				Table orderTable = new ConcreteTable(null, originalColumns);
+				Cursor rows = result.rows();
+				List<Order> tempOrder = new ArrayList<Order>();
+				while(rows.advance()){
+					ArrayList row = new ArrayList();
+					Iterator it_row = rows.columns();
+					while(it_row.hasNext()){
+						row.add(it_row.next());
+					}
+					tempOrder.add(new Order(orderColumns, row.toArray()));
+				}
+				Collections.sort(tempOrder);
+				for(int i = 0; i<tempOrder.size();i++){
+					Iterator row = tempOrder.get(i).getRow();
+					String[] newRow = new String[originalColumns.length];
+					for(int j = 0; j<originalColumns.length; j++){
+						newRow[j] = row.next().toString();
+					}
+					orderTable.insert(originalColumns, newRow);
+				}
+				result = orderTable;
 			}
 			return result;
 		}
