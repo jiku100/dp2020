@@ -836,6 +836,7 @@ public final class Database
 				int idx = 0;
 				for(var s: columns)
 					originalColumns[idx++] = s.toString();
+
 				orderby = true;
 				String id;
 				int columnSize = originalColumns.length - 1;
@@ -869,6 +870,7 @@ public final class Database
 				String[] targetColumns = new String[columns.size()];
 				for (int i = 0; i < columns.size(); i++)
 					targetColumns[i] = (String) columns.toArray()[i];
+
 				Table distinct_table = new ConcreteTable(null, targetColumns);
 
 				while (rows.advance()) {
@@ -888,55 +890,13 @@ public final class Database
 						Iterator row = rows.columns();
 						int i = 0;
 						while (row.hasNext()) {
-							values[i++] = row.next();
+							values[i++] = (String)row.next();
 						}
-						distinct_table.insert(targetColumns, values);
+						distinct_table.insert(values);
 					}
 				}
 				result = distinct_table;
 			}
-//				ArrayList<Object>[] values = new ArrayList[targetColumns.length];
-//				for(int k = 0; k<targetColumns.length;k++){
-//					values[k] = new ArrayList<Object>();
-//				}
-//				ArrayList<Object> check = new ArrayList<Object>();
-//				int numOverlap = 0;
-//				while(rows.advance()) {
-//					for (var columnName : columns) {
-//						Object value = rows.column(columnName.toString());
-//						check.add(value);
-//					}
-//
-//					if(values[0].isEmpty()){
-//						for(int k = 0; k < values.length; k++)
-//							values[k].add(check.get(k));
-//					}
-//					else {
-//						int max_idx = values[0].size();
-//						for (int j = 0; j < max_idx; j++) {
-//							for (int k = 0; k < values.length; k++) {
-//								if (values[k].get(j).equals((check.get(k))))
-//									numOverlap++;
-//							}
-//							if (numOverlap == values.length)
-//								break;
-//							else
-//								numOverlap = 0;
-//						}
-//					}
-//					if (numOverlap != values.length) {
-//						String[] newRow = new String[check.size()];
-//						Iterator row = check.iterator();
-//						i = 0;
-//						while (row.hasNext())
-//							newRow[i++] = row.next().toString();
-//						distinct_table.insert(targetColumns, newRow);
-//					}
-//					numOverlap = 0;
-//					check.clear();
-//				}
-//				result = distinct_table;
-//			}
 
 			if(orderby){
 				Table orderTable = new ConcreteTable(null, originalColumns);
