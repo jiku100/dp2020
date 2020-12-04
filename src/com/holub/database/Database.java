@@ -858,66 +858,85 @@ public final class Database
 			Table result = doSelect(columns, into,
 								requestedTableNames, where );
 
-			if(distinct){
+			if(distinct) {
 				Cursor rows = result.rows();
-				if(columns == null){
+				if (columns == null) {
 					columns = new ArrayList<>();
-					for(int k = 0; k<rows.columnCount(); k++){
+					for (int k = 0; k < rows.columnCount(); k++) {
 						columns.add(rows.columnName(k));
 					}
 				}
 				String[] targetColumns = new String[columns.size()];
-				int i = 0;
-				Iterator column = columns.iterator();
-
-				while (column.hasNext())
-					targetColumns[i++] = column.next().toString();
-
+				for (int i = 0; i < columns.size(); i++)
+					targetColumns[i] = (String) columns.toArray()[i];
 				Table distinct_table = new ConcreteTable(null, targetColumns);
 
-
-				ArrayList<Object>[] values = new ArrayList[targetColumns.length];
-				for(int k = 0; k<targetColumns.length;k++){
-					values[k] = new ArrayList<Object>();
-				}
-				ArrayList<Object> check = new ArrayList<Object>();
-				int numOverlap = 0;
-				while(rows.advance()) {
-					for (var columnName : columns) {
-						Object value = rows.column(columnName.toString());
-						check.add(value);
-					}
-
-					if(values[0].isEmpty()){
-						for(int k = 0; k < values.length; k++)
-							values[k].add(check.get(k));
-					}
-					else {
-						int max_idx = values[0].size();
-						for (int j = 0; j < max_idx; j++) {
-							for (int k = 0; k < values.length; k++) {
-								if (values[k].get(j).equals((check.get(k))))
-									numOverlap++;
-							}
-							if (numOverlap == values.length)
-								break;
-							else
-								numOverlap = 0;
+				while (rows.advance()) {
+					Cursor targetRows = distinct_table.rows();
+					int numOverlap = 0;
+					while (targetRows.advance()) {
+						numOverlap = 0;
+						for (var column : targetColumns) {
+							if (targetRows.column(column).toString().equals(rows.column(column).toString()))
+								numOverlap++;
 						}
+						if (numOverlap == targetColumns.length)
+							break;
 					}
-					if (numOverlap != values.length) {
-						String[] newRow = new String[check.size()];
-						Iterator row = check.iterator();
-						i = 0;
-						while (row.hasNext())
-							newRow[i++] = row.next().toString();
-						distinct_table.insert(targetColumns, newRow);
+					if (numOverlap != targetColumns.length) {
+						Object[] values = new Object[targetColumns.length];
+						Iterator row = rows.columns();
+						int i = 0;
+						while (row.hasNext()) {
+							values[i++] = row.next();
+						}
+						distinct_table.insert(targetColumns, values);
 					}
-					numOverlap = 0;
-					check.clear();
 				}
 				result = distinct_table;
 			}
+//				ArrayList<Object>[] values = new ArrayList[targetColumns.length];
+//				for(int k = 0; k<targetColumns.length;k++){
+//					values[k] = new ArrayList<Object>();
+//				}
+//				ArrayList<Object> check = new ArrayList<Object>();
+//				int numOverlap = 0;
+//				while(rows.advance()) {
+//					for (var columnName : columns) {
+//						Object value = rows.column(columnName.toString());
+//						check.add(value);
+//					}
+//
+//					if(values[0].isEmpty()){
+//						for(int k = 0; k < values.length; k++)
+//							values[k].add(check.get(k));
+//					}
+//					else {
+//						int max_idx = values[0].size();
+//						for (int j = 0; j < max_idx; j++) {
+//							for (int k = 0; k < values.length; k++) {
+//								if (values[k].get(j).equals((check.get(k))))
+//									numOverlap++;
+//							}
+//							if (numOverlap == values.length)
+//								break;
+//							else
+//								numOverlap = 0;
+//						}
+//					}
+//					if (numOverlap != values.length) {
+//						String[] newRow = new String[check.size()];
+//						Iterator row = check.iterator();
+//						i = 0;
+//						while (row.hasNext())
+//							newRow[i++] = row.next().toString();
+//						distinct_table.insert(targetColumns, newRow);
+//					}
+//					numOverlap = 0;
+//					check.clear();
+//				}
+//				result = distinct_table;
+//			}
 
 			if(orderby){
 				Table orderTable = new ConcreteTable(null, originalColumns);
