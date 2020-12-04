@@ -1,0 +1,7 @@
+File Type: csv
+Data File name: address.csv
+Table Name: address
+Number of Column: 5
+Kinds of Column: addrId street city state zip 
+Number of Data: 5
+Last Edit Time: 2020-12-04 12:46:40

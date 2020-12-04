@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<address>
+	<address>
+		<addrId>100</addrId>
+		<street>tjrrud</street>
+		<city>Jeonju</city>
+		<state>asda</state>
+		<zip>10000</zip>
+	</address>
+	<address>
+		<addrId>2151</addrId>
+		<street>dPekfa</street>
+		<city>hihih</city>
+		<state>qweqe</state>
+		<zip>012310</zip>
+	</address>
+</address>
