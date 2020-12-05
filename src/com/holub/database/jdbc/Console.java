@@ -206,8 +206,13 @@ public class Console
 		b.append("\n");
 
 		while( results.next() )
-		{	for( int i = 1; i <= columns; ++i )
-				b.append( formatColumn(results.getString(metadata.getColumnName(i)), 10) );
+		{	for( int i = 1; i <= columns; ++i ){
+			String result = results.getString(metadata.getColumnName(i));
+			if(result == null)
+				result = "null";
+			b.append( formatColumn(result, 10) );
+		}
+
 			b.append("\n");
 		}
 		return b.toString();

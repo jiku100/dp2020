@@ -409,7 +409,9 @@ public final class Database
 		ORDERBY		= tokens.create( "'ORDER BY"),
 		DESC		= tokens.create( "'DESC"),
 		ASC			= tokens.create( "'ASC"),
-
+		LEFTOUTERJOIN = tokens.create("'LEFT OUTER JOIN"),
+	    RIGHTOUTERJOIN = tokens.create("'RIGHT OUTER JOIN"),
+        ON			= tokens.create("'ON"),
 
 		WORK		= tokens.create( "WORK|TRAN(SACTION)?"		),
 		ADDITIVE	= tokens.create( "\\+|-" 					),
@@ -818,6 +820,16 @@ public final class Database
 			in.required( FROM );
 			List requestedTableNames = idList();
 
+//			if(in.matchAdvance(LEFTOUTERJOIN) != null){
+//				List outerjoinTableNames = idList();
+//				requestedTableNames.addAll(outerjoinTableNames);
+//				Expression on = (in.matchAdvance(ON) == null)
+//						? null : expr();
+//
+//				Table
+//
+//			}
+
 			Expression where = (in.matchAdvance(WHERE) == null)
 								? null : expr();
 
@@ -859,44 +871,36 @@ public final class Database
 			}
 			Table result = doSelect(columns, into,
 								requestedTableNames, where );
-
 			if(distinct) {
 				Cursor rows = result.rows();
-				if (columns == null) {
-					columns = new ArrayList<>();
-					for (int k = 0; k < rows.columnCount(); k++) {
-						columns.add(rows.columnName(k));
-					}
-				}
-				String[] targetColumns = new String[columns.size()];
-				for (int i = 0; i < columns.size(); i++)
-					targetColumns[i] = (String) columns.toArray()[i];
-
-				Table distinct_table = new ConcreteTable(null, targetColumns);
-
+				int i = 0;
+				int numOverlapRow;
+				int numOverlapCol;
 				while (rows.advance()) {
-					Cursor targetRows = distinct_table.rows();
-					int numOverlap = 0;
-					while (targetRows.advance()) {
-						numOverlap = 0;
-						for (var column : targetColumns) {
-							if (targetRows.column(column).toString().equals(rows.column(column).toString()))
-								numOverlap++;
+					numOverlapRow = 0;
+					i++;
+
+					Cursor targetRows = result.rows();
+					for (int j = 0; j < i; j++) {
+						targetRows.advance();
+						
+						numOverlapCol = 0;
+						for (int k = 0; k < rows.columnCount(); k++) {
+							String value1 = rows.column(rows.columnName(k)) == null ? "null" : rows.column(rows.columnName(k)).toString();
+							String value2 = targetRows.column(targetRows.columnName(k)) == null ? "null" : targetRows.column(targetRows.columnName(k)).toString();
+							if (value1.equals(value2))
+								numOverlapCol++;
 						}
-						if (numOverlap == targetColumns.length)
-							break;
+						if (numOverlapCol == targetRows.columnCount()) {
+							numOverlapRow++;
+						}
 					}
-					if (numOverlap != targetColumns.length) {
-						Object[] values = new Object[targetColumns.length];
-						Iterator row = rows.columns();
-						int i = 0;
-						while (row.hasNext()) {
-							values[i++] = (String)row.next();
-						}
-						distinct_table.insert(values);
+					if(numOverlapRow > 1){
+						rows.delete();
+						rows = result.rows();
+						i = 0;
 					}
 				}
-				result = distinct_table;
 			}
 
 			if(orderby){
@@ -916,7 +920,8 @@ public final class Database
 					Iterator row = tempOrder.get(i).getRow();
 					String[] newRow = new String[originalColumns.length];
 					for(int j = 0; j<originalColumns.length; j++){
-						newRow[j] = row.next().toString();
+						Object value = row.next();
+						newRow[j] = value == null ? null : value.toString();
 					}
 					orderTable.insert(originalColumns, newRow);
 				}
