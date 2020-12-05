@@ -808,6 +808,7 @@ public final class Database
 		else if( in.matchAdvance(SELECT) != null )
 		{	boolean distinct = false;
 			boolean orderby = false;
+			Table result = null;
 			if(in.matchAdvance(DISTINCT) != null)
 				distinct = true;
 
@@ -820,15 +821,14 @@ public final class Database
 			in.required( FROM );
 			List requestedTableNames = idList();
 
-//			if(in.matchAdvance(LEFTOUTERJOIN) != null){
-//				List outerjoinTableNames = idList();
-//				requestedTableNames.addAll(outerjoinTableNames);
-//				Expression on = (in.matchAdvance(ON) == null)
-//						? null : expr();
-//
-//				Table
-//
-//			}
+			if(in.matchAdvance(LEFTOUTERJOIN) != null){
+				List outerjoinTableNames = idList();
+				requestedTableNames.addAll(outerjoinTableNames);
+				Expression on = (in.matchAdvance(ON) == null)
+						? null : expr();
+
+				result = doSelect(columns, into, requestedTableNames, on);
+			}
 
 			Expression where = (in.matchAdvance(WHERE) == null)
 								? null : expr();
@@ -837,9 +837,9 @@ public final class Database
 			if(in.matchAdvance(ORDERBY) != null)
 			{
 				if(columns == null){
-					Table result = doSelect(columns, into,
+					Table temp = doSelect(columns, into,
 							requestedTableNames, where );
-					Cursor rows = result.rows();
+					Cursor rows = temp.rows();
 					columns = new ArrayList<>();
 					for(int k = 0; k<rows.columnCount(); k++){
 						columns.add(rows.columnName(k));
@@ -869,8 +869,9 @@ public final class Database
 						break;
 				}
 			}
-			Table result = doSelect(columns, into,
-								requestedTableNames, where );
+			if(result == null)
+				result = doSelect(columns, into, requestedTableNames, where );
+
 			if(distinct) {
 				Cursor rows = result.rows();
 				int i = 0;
@@ -1293,6 +1294,9 @@ public final class Database
 			Value leftValue  = left.evaluate ( tables );
 			Value rightValue = right.evaluate( tables );
 
+			if(leftValue.toString() == null || rightValue.toString() == null)
+				return new BooleanValue(false);
+
 			if( 	(leftValue  instanceof StringValue)
 				||	(rightValue instanceof StringValue) )
 			{	verify(operator==EQ || operator==NE,
@@ -1355,6 +1359,10 @@ public final class Database
 		public Value evaluate(Cursor[] tables) throws ParseFailure
 		{	Value leftValue	 = left.evaluate(tables);
 			Value rightValue = right.evaluate(tables);
+
+			if(leftValue.toString() == null || rightValue.toString() == null)
+				return new BooleanValue(false);
+
 			verify
 			(	leftValue  instanceof StringValue
 			 && rightValue instanceof StringValue,

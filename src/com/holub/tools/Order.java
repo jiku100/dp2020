@@ -26,6 +26,8 @@ public class Order implements Comparable<Order>{
     @Override
     public int compareTo(Order o) {
         for(var columnIdx: orderColumns.keySet()){
+            if(row[(int)columnIdx] == null || o.getColumn((int)columnIdx) == null)
+                return 1;
             if(row[(int)columnIdx].equals(o.getColumn((int)columnIdx))){
                 continue;
             }
