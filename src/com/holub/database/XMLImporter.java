@@ -74,7 +74,7 @@ public class XMLImporter implements Table.Importer, ImporterAccept
     {   return list.getLength();
     }
     public Iterator loadColumnNames()	throws IOException
-    {	return new ArrayIterator(columnNames);  //{=CSVImporter.ArrayIteratorCall}
+    {	return new ArrayIterator(columnNames);
     }
 
     public Iterator loadRow()			throws IOException

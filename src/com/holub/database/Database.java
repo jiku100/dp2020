@@ -410,6 +410,7 @@ public final class Database
 		DESC		= tokens.create( "'DESC"),
 		ASC			= tokens.create( "'ASC"),
 
+
 		WORK		= tokens.create( "WORK|TRAN(SACTION)?"		),
 		ADDITIVE	= tokens.create( "\\+|-" 					),
 		STRING		= tokens.create( "(\".*?\")|('.*?')"		),

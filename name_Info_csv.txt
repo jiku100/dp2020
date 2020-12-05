@@ -3,5 +3,5 @@ Data File name: name.csv
 Table Name: name
 Number of Column: 3
 Kinds of Column: first last addrId 
-Number of Data: 3
-Last Edit Time: 2020-11-30 22:59:23
+Number of Data: 6
+Last Edit Time: 2020-12-05 20:15:47
