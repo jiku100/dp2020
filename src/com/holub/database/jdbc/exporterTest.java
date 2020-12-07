@@ -21,21 +21,21 @@ import java.util.TreeMap;
 
 public class exporterTest {
     public static void main(String[] args) throws IOException {
-//        Table address = TableFactory.load("address.csv", "c:/dp2020");
-//        Writer writer = new FileWriter("c:/dp2020/" + address.name() +".html", false);
-//        HTMLExporter xml = new HTMLExporter(writer);
-//        address.export(xml);
-//        writer.close();
-        Map<ArrayList, ArrayList> a = new TreeMap<>();
-        ArrayList Key = new ArrayList();
-        ArrayList value = new ArrayList();
-        Key.add("1");
-        Key.add("2");
-        value.add("Hi");
-        a.put(Key, value);
-        Key.add("1");
-        Key.add("1");
-        value.add("Hello");
+        Table address = TableFactory.load("address.csv", "c:/dp2020");
+        Writer writer = new FileWriter("c:/dp2020/" + address.name() +".html", false);
+        HTMLExporter html = new HTMLExporter(writer);
+        address.export(html);
+        writer.close();
+//        Map<ArrayList, ArrayList> a = new TreeMap<>();
+//        ArrayList Key = new ArrayList();
+//        ArrayList value = new ArrayList();
+//        Key.add("1");
+//        Key.add("2");
+//        value.add("Hi");
+//        a.put(Key, value);
+//        Key.add("1");
+//        Key.add("1");
+//        value.add("Hello");
 
     }
 }

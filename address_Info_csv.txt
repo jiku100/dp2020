@@ -4,4 +4,4 @@ Table Name: address
 Number of Column: 5
 Kinds of Column: addrId street city state zip 
 Number of Data: 8
-Last Edit Time: 2020-12-06 02:31:12
+Last Edit Time: 2020-12-08 03:51:14
