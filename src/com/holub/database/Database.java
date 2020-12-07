@@ -821,13 +821,16 @@ public final class Database
 			in.required( FROM );
 			List requestedTableNames = idList();
 
-			if(in.matchAdvance(LEFTOUTERJOIN) != null){
+			if(in.matchAdvance(LEFTOUTERJOIN) != null) {
 				List outerjoinTableNames = idList();
 				requestedTableNames.addAll(outerjoinTableNames);
 				Expression on = (in.matchAdvance(ON) == null)
 						? null : expr();
 
 				result = doSelect(columns, into, requestedTableNames, on);
+				Table primary = (Table) tables.get(requestedTableNames.get(0));
+				Cursor rows = result.rows();
+				Cursor original = primary.rows();
 			}
 
 			Expression where = (in.matchAdvance(WHERE) == null)
@@ -871,6 +874,25 @@ public final class Database
 			}
 			if(result == null)
 				result = doSelect(columns, into, requestedTableNames, where );
+			else{
+				Selector selector = (where == null) ? Selector.ALL : //{=Database.selector}
+						new Selector.Adapter()
+						{	public boolean approve(Cursor[] tables)
+						{	try
+						{
+							Value result = where.evaluate(tables);
+
+							verify( result instanceof BooleanValue,
+									"WHERE clause must yield boolean result" );
+							return ((BooleanValue)result).value();
+						}
+						catch( ParseFailure e )
+						{	throw new ThrowableContainer(e);
+						}
+						}
+						};
+				result = result.select(selector);
+			}
 
 			if(distinct) {
 				Cursor rows = result.rows();

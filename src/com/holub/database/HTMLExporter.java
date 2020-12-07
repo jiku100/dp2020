@@ -21,42 +21,42 @@ public class HTMLExporter implements Table.Exporter
         this.tableName = tableName == null ? "anonymous" : tableName;
 
         out.write("\t<head>\n");
-        System.out.print("\t<head>\n");
+        //System.out.print("\t<head>\n");
         out.write("\t\t<title>");
-        System.out.print("\t\t<title>");
+       // System.out.print("\t\t<title>");
         out.write(tableName == null ? "anonymous" : tableName );
-        System.out.print(tableName == null ? "anonymous" : tableName );
+        //System.out.print(tableName == null ? "anonymous" : tableName );
         out.write("</title>\n");
-        System.out.print("</title>\n");
+        //System.out.print("</title>\n");
         out.write("\t</head>\n");
-        System.out.print("\t</head>\n");
+        //System.out.print("\t</head>\n");
         out.write("\t<body>\n");
-        System.out.print("\t<body>\n");
+        //System.out.print("\t<body>\n");
         out.write("\t\t<table>\n");
-        System.out.print("\t\t<table>\n");
+       // System.out.print("\t\t<table>\n");
         out.write("\t\t\t<thead>\n");
-        System.out.print("\t\t\t<thead>\n");
+        //System.out.print("\t\t\t<thead>\n");
         out.write("\t\t\t\t<tr>\n");
-        System.out.print("\t\t\t\t<tr>\n");
+        //System.out.print("\t\t\t\t<tr>\n");
         if(columnNames.hasNext()){
             out.write("\t\t\t\t\t<th>");
-            System.out.print("\t\t\t\t\t<th>");
+            //System.out.print("\t\t\t\t\t<th>");
         }
         while( columnNames.hasNext() ) {
             Object datum = columnNames.next();
             out.write(datum.toString() + "</th>");
-            System.out.print(datum.toString() + "</th>");
+            //System.out.print(datum.toString() + "</th>");
             if(columnNames.hasNext()){
                 out.write("<th>");
-                System.out.print("<th>");
+                //System.out.print("<th>");
             }
         }
         out.write("\n\t\t\t\t</tr>\n");
-        System.out.print("\n\t\t\t\t</tr>\n");
+       // System.out.print("\n\t\t\t\t</tr>\n");
         out.write("\t\t\t</thead>\n");
-        System.out.print("\t\t\t</thead>\n");
+        //System.out.print("\t\t\t</thead>\n");
         out.write("\t\t\t<tbody>\n");
-        System.out.print("\t\t\t<tbody>\n");
+        //System.out.print("\t\t\t<tbody>\n");
     }
 
     public void storeRow( Iterator data ) throws IOException
