@@ -267,6 +267,7 @@ public interface Table extends Serializable, Cloneable
 				Iterator columnNames )	throws IOException;
 		public void storeRow(Iterator data) throws IOException;
 		public void endTable()			 	throws IOException;
+		public int accept(ExporterVisitor visitor);
 	}
 
 	/******************************************************************* 
@@ -289,5 +290,6 @@ public interface Table extends Serializable, Cloneable
 		Iterator loadColumnNames()	throws IOException;
 		Iterator loadRow()			throws IOException;
 		void 	 endTable()			throws IOException;
+		int accept(ImporterVisitor visitor);
 	}
 }
