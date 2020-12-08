@@ -96,10 +96,7 @@ public class XMLImporter implements Table.Importer, ImporterAccept
         return row;
     }
 
-    public void endTable() throws IOException {
-        accept(new CheckEditVisitor());
-        accept(new DataInfoVisitor());
-    }
+    public void endTable() throws IOException {}
 
     @Override
     public int accept(ImporterVisitor visitor) {

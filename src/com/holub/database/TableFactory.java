@@ -93,7 +93,7 @@ public class TableFactory
 			Reader in = new FileReader( new File( directory, name ));
 			CSVImporter csv = new CSVImporter(in);
 			Table loaded = new ConcreteTable(csv);
-			csv.accept(new CheckEditVisitor());
+			//csv.accept(new CheckEditVisitor());
 			csv.accept(new DataInfoVisitor());
 			in.close();
 			return loaded;
@@ -102,7 +102,7 @@ public class TableFactory
 			Reader in = new FileReader( new File( directory, name ));
 			XMLImporter xml =  new XMLImporter( in );
 			Table loaded = new ConcreteTable(xml);
-			xml.accept(new CheckEditVisitor());
+			//xml.accept(new CheckEditVisitor());
 			xml.accept(new DataInfoVisitor());
 			in.close();
 			return loaded;

@@ -65,7 +65,7 @@ public class CSVExporter implements Table.Exporter, ExporterAccept
 	private 	  int	 width;
 	private       int    height;
 	private String tableName;
-
+	private ArrayList<String> columnNames = new ArrayList<String>();
 	public CSVExporter( Writer out )
 	{	this.out = out;
 	}
@@ -78,7 +78,8 @@ public class CSVExporter implements Table.Exporter, ExporterAccept
 	{	this.width = width;
 		this.height = height;
 		this.tableName = tableName == null ? "anonymous" : tableName;
-
+		while(columnNames.hasNext())
+			this.columnNames.add(columnNames.next().toString());
 
 		out.write(tableName == null ? "<anonymous>" : tableName );
 		out.write("\n");
@@ -104,6 +105,22 @@ public class CSVExporter implements Table.Exporter, ExporterAccept
 
 	public void startTable() throws IOException {/*nothing to do*/}
 	public void endTable()   throws IOException {/*nothing to do*/}
+
+	public int getWidth() {
+		return this.width;
+	}
+
+	public int getHeight() {
+		return this.height;
+	}
+
+	public String getTableName() {
+		return this.tableName;
+	}
+
+	public ArrayList<String> getColumnNames() {
+		return this.columnNames;
+	}
 
 	@Override
 	public int accept(ExporterVisitor visitor) {

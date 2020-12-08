@@ -6,7 +6,9 @@ import java.util.*;
 public class HTMLExporter implements Table.Exporter, ExporterAccept
 {	private final Writer out;
     private 	  int	 width;
+    private       int    height;
     private String tableName;
+    private ArrayList<String> columnNames = new ArrayList<String>();
 
     public HTMLExporter( Writer out )
     {	this.out = out;
@@ -18,7 +20,10 @@ public class HTMLExporter implements Table.Exporter, ExporterAccept
                                Iterator columnNames ) throws IOException
 
     {	this.width = width;
+        this.height = height;
         this.tableName = tableName == null ? "anonymous" : tableName;
+        while(columnNames.hasNext())
+            this.columnNames.add(columnNames.next().toString());
 
         out.write("\t<head>\n");
         out.write("\t\t<title>");
@@ -73,6 +78,21 @@ public class HTMLExporter implements Table.Exporter, ExporterAccept
         out.write("\t\t</table>\n");
         out.write("\t</body>\n");
         out.write("</html>\n");
+    }
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public String getTableName() {
+        return this.tableName;
+    }
+
+    public ArrayList<String> getColumnNames() {
+        return this.columnNames;
     }
 
     @Override

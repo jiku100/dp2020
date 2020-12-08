@@ -8,7 +8,8 @@ public class XMLExporter implements Table.Exporter, ExporterAccept
     private 	  int	 width;
     private       int    height;
     private String tableName;
-    private String[] columnNames;
+    private ArrayList<String> columnNames = new ArrayList<String>();
+
     public XMLExporter( Writer out )
     {	this.out = out;
     }
@@ -21,10 +22,9 @@ public class XMLExporter implements Table.Exporter, ExporterAccept
     {	this.width = width;
         this.height = height;
         this.tableName = tableName == null ? "anonymous" : tableName;
-        this.columnNames = new String[width];
 
         for(int i = 0; columnNames.hasNext(); i++){
-            this.columnNames[i] = columnNames.next().toString();
+            this.columnNames.add(columnNames.next().toString());
         }
 
         out.write("<" + this.tableName + ">\n");
@@ -38,16 +38,18 @@ public class XMLExporter implements Table.Exporter, ExporterAccept
             out.write("\t<" + this.tableName + ">\n");
         }
 
-        while( data.hasNext() )
+        while( data.hasNext())
         {	Object datum = data.next();
 
             // Null columns are represented by an empty field
             // (two commas in a row). There's nothing to write
             // if the column data is null.
             if( datum != null ){
-                out.write("\t\t<" + this.columnNames[i] + ">");
+                String temp = columnNames.get(i);
+                out.write("\t\t<" + temp + ">");
                 out.write( datum.toString() );
-                out.write("</" + this.columnNames[i] + ">\n");
+                out.write("</" + temp + ">\n");
+                System.out.print("<" + temp + ">\n");
             }
 
             if( i < width )
@@ -64,6 +66,21 @@ public class XMLExporter implements Table.Exporter, ExporterAccept
     }
     public void endTable()   throws IOException {
         out.write("</" + this.tableName + ">\n");
+    }
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public String getTableName() {
+        return this.tableName;
+    }
+
+    public ArrayList<String> getColumnNames() {
+        return this.columnNames;
     }
 
     @Override
