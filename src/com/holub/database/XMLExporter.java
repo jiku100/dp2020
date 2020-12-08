@@ -9,7 +9,6 @@ public class XMLExporter implements Table.Exporter
     private       int    height;
     private String tableName;
     private String[] columnNames;
-    private static int order = 1;
     public XMLExporter( Writer out )
     {	this.out = out;
     }
@@ -29,7 +28,6 @@ public class XMLExporter implements Table.Exporter
         }
 
         out.write("<" + this.tableName + ">\n");
-        System.out.print("<" + this.tableName + ">\n");
     }
 
     public void storeRow( Iterator data ) throws IOException
@@ -38,7 +36,6 @@ public class XMLExporter implements Table.Exporter
         if(data.hasNext()){
             hasText = true;
             out.write("\t<" + this.tableName + ">\n");
-            System.out.print("\t<" + this.tableName + ">\n");
         }
 
         while( data.hasNext() )
@@ -49,30 +46,23 @@ public class XMLExporter implements Table.Exporter
             // if the column data is null.
             if( datum != null ){
                 out.write("\t\t<" + this.columnNames[i] + ">");
-                System.out.print("\t\t<" + this.columnNames[i] + ">");
                 out.write( datum.toString() );
-                System.out.print(datum.toString());
+                out.write("</" + this.columnNames[i] + ">\n");
             }
 
-            if( i < width ){
-                out.write("</" + this.columnNames[i] + ">\n");
-                System.out.print("</" + this.columnNames[i] + ">\n");
+            if( i < width )
                 i++;
-            }
+
         }
         if(hasText){
             out.write("\t</" + this.tableName + ">\n");
-            System.out.print("\t</" + this.tableName + ">\n");
-            this.order++;
         }
     }
 
     public void startTable() throws IOException {
         out.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-        System.out.print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
     }
     public void endTable()   throws IOException {
         out.write("</" + this.tableName + ">\n");
-        System.out.print("</" + this.tableName + ">\n");
     }
 }

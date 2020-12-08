@@ -2,12 +2,15 @@ package com.holub.database;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class HTMLExporterTest {
-    class WriterMock extends Writer{
+class XMLExporterTest {
+    class WriterMock extends Writer {
         private int callCount = 0;
         private StringBuilder outputs = new StringBuilder();
 
@@ -33,40 +36,28 @@ class HTMLExporterTest {
     @Test
     void storeMetadata() throws IOException {
         WriterMock out = new WriterMock();
-        HTMLExporter exporter = new HTMLExporter(out);
+        XMLExporter exporter = new XMLExporter(out);
+        String testTableName = "student";
+        ArrayList columnNames = new ArrayList();
+        columnNames.add("name");
+        columnNames.add("score");
+        exporter.storeMetadata(testTableName, columnNames.size(), 0, columnNames.iterator());
+        StringBuilder testString = new StringBuilder();
+        testString.append("<student>\n");
+        assertEquals(out.getCallCount(), 1);
+        assertEquals(out.getOutputs(), testString.toString());
+    }
+
+    @Test
+    void storeRow() throws IOException {
+        WriterMock out = new WriterMock();
+        XMLExporter exporter = new XMLExporter(out);
         String testTableName = "student";
         ArrayList columnNames = new ArrayList();
         columnNames.add("name");
         columnNames.add("score");
         exporter.storeMetadata(testTableName, columnNames.size(), 0, columnNames.iterator());
 
-        StringBuilder testString = new StringBuilder();
-        testString.append("\t<head>\n");
-        testString.append("\t\t<title>");
-        testString.append("student");
-        testString.append("</title>\n");
-        testString.append("\t</head>\n");
-        testString.append("\t<body>\n");
-        testString.append("\t\t<table>\n");
-        testString.append("\t\t\t<thead>\n");
-        testString.append("\t\t\t\t<tr>\n");
-        testString.append("\t\t\t\t\t<th>");
-        testString.append("name</th>");
-        testString.append("<th>");
-        testString.append("score</th>");
-        testString.append("\n\t\t\t\t</tr>\n");
-        testString.append("\t\t\t</thead>\n");
-        testString.append("\t\t\t<tbody>\n");
-
-        assertEquals(out.getCallCount(), 16);
-        assertEquals(out.getOutputs(), testString.toString());
-
-    }
-
-    @Test
-    void storeRow() throws IOException {
-        WriterMock out = new WriterMock();
-        HTMLExporter exporter = new HTMLExporter(out);
         ArrayList<String> info = new ArrayList<>();
         info.add("Shin");
         info.add("4.5");
@@ -83,37 +74,52 @@ class HTMLExporterTest {
         exporter.storeRow(info.iterator());
 
         StringBuilder testString = new StringBuilder();
-        testString.append("\t\t\t\t<tr><td>Shin</td><td>4.5</td></tr>\n");
-        testString.append("\t\t\t\t<tr><td>Seok</td><td>3.8</td></tr>\n");
-        testString.append("\t\t\t\t<tr><td>Gyeong</td><td>4.2</td></tr>\n");
-
-        assertEquals(out.getCallCount(), 24);
+        testString.append("<student>\n");
+        testString.append("\t<student>\n");
+        testString.append("\t\t<name>Shin</name>\n");
+        testString.append("\t\t<score>4.5</score>\n");
+        testString.append("\t</student>\n");
+        testString.append("\t<student>\n");
+        testString.append("\t\t<name>Seok</name>\n");
+        testString.append("\t\t<score>3.8</score>\n");
+        testString.append("\t</student>\n");
+        testString.append("\t<student>\n");
+        testString.append("\t\t<name>Gyeong</name>\n");
+        testString.append("\t\t<score>4.2</score>\n");
+        testString.append("\t</student>\n");
+        assertEquals(out.getCallCount(), 25);
         assertEquals(out.getOutputs(), testString.toString());
     }
 
     @Test
     void startTable() throws IOException {
         WriterMock out = new WriterMock();
-        HTMLExporter exporter = new HTMLExporter(out);
-        StringBuilder testString = new StringBuilder();
-        testString.append("<!DOCTYPE html>\n");
-        testString.append("<html>\n");
+        XMLExporter exporter = new XMLExporter(out);
         exporter.startTable();
-        assertEquals(out.getCallCount(), 2);
+
+        StringBuilder testString = new StringBuilder();
+        testString.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+
+        assertEquals(out.getCallCount(), 1);
         assertEquals(out.getOutputs(), testString.toString());
     }
 
     @Test
-    void endTable()  throws IOException {
+    void endTable() throws IOException {
         WriterMock out = new WriterMock();
-        HTMLExporter exporter = new HTMLExporter(out);
-        StringBuilder testString = new StringBuilder();
-        testString.append("\t\t\t</tbody>\n");
-        testString.append("\t\t</table>\n");
-        testString.append("\t</body>\n");
-        testString.append("</html>\n");
+        XMLExporter exporter = new XMLExporter(out);
+        String testTableName = "student";
+        ArrayList columnNames = new ArrayList();
+        columnNames.add("name");
+        columnNames.add("score");
+        exporter.storeMetadata(testTableName, columnNames.size(), 0, columnNames.iterator());
         exporter.endTable();
-        assertEquals(out.getCallCount(), 4);
+        
+        StringBuilder testString = new StringBuilder();
+        testString.append("<student>\n");
+        testString.append("</student>\n");
+
+        assertEquals(out.getCallCount(), 2);
         assertEquals(out.getOutputs(), testString.toString());
     }
 }
