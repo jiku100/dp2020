@@ -3,7 +3,7 @@ package com.holub.database;
 import java.io.*;
 import java.util.*;
 
-public class XMLExporter implements Table.Exporter, ExporterAccept
+public class XMLExporter implements Table.Exporter
 {	private final Writer out;
     private 	  int	 width;
     private       int    height;
@@ -49,7 +49,6 @@ public class XMLExporter implements Table.Exporter, ExporterAccept
                 out.write("\t\t<" + temp + ">");
                 out.write( datum.toString() );
                 out.write("</" + temp + ">\n");
-                System.out.print("<" + temp + ">\n");
             }
 
             if( i < width )
