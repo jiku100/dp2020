@@ -60,7 +60,7 @@ import java.util.*;
  * @see CSVImporter
  */
 
-public class CSVExporter implements Table.Exporter
+public class CSVExporter implements Table.Exporter, ExporterAccept
 {	private final Writer out;
 	private 	  int	 width;
 	private       int    height;
@@ -104,4 +104,9 @@ public class CSVExporter implements Table.Exporter
 
 	public void startTable() throws IOException {/*nothing to do*/}
 	public void endTable()   throws IOException {/*nothing to do*/}
+
+	@Override
+	public int accept(ExporterVisitor visitor) {
+		return visitor.visit(this);
+	}
 }

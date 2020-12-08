@@ -3,7 +3,7 @@ package com.holub.database;
 import java.io.*;
 import java.util.*;
 
-public class XMLExporter implements Table.Exporter
+public class XMLExporter implements Table.Exporter, ExporterAccept
 {	private final Writer out;
     private 	  int	 width;
     private       int    height;
@@ -64,5 +64,10 @@ public class XMLExporter implements Table.Exporter
     }
     public void endTable()   throws IOException {
         out.write("</" + this.tableName + ">\n");
+    }
+
+    @Override
+    public int accept(ExporterVisitor visitor) {
+        return visitor.visit(this);
     }
 }

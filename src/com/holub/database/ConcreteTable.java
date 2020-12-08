@@ -449,7 +449,7 @@ import com.holub.tools.ArrayIterator;
 		if (otherTables == null || otherTables.length == 0)
 			return select(where, requestedColumns);
 
-		if(requestedColumns == null){
+		if(requestedColumns == null){	// if Select *
 			List columns = new ArrayList();
 			for(var s: columnNames){
 				columns.add(s);
