@@ -1,0 +1,7 @@
+File Type: html
+Data File name: student.html
+Table Name: student
+Number of Column: 2
+Kinds of Column: name score 
+Number of Data: 3
+Last Edit Time: 2020-12-09 00:59:38

@@ -56,7 +56,7 @@ class XMLExporterTest {
         ArrayList columnNames = new ArrayList();
         columnNames.add("name");
         columnNames.add("score");
-        exporter.storeMetadata(testTableName, columnNames.size(), 0, columnNames.iterator());
+        exporter.storeMetadata(testTableName, columnNames.size(), 3, columnNames.iterator());
 
         ArrayList<String> info = new ArrayList<>();
         info.add("Shin");
