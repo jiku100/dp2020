@@ -1,9 +1,6 @@
 package com.holub.database;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
 
 public class DataInfoVisitor implements ImporterVisitor {
     @Override

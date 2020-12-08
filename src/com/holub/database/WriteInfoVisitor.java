@@ -1,12 +1,10 @@
 package com.holub.database;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 
 public class WriteInfoVisitor implements ExporterVisitor{
     @Override
