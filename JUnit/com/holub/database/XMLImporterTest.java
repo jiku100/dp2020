@@ -31,7 +31,7 @@ class XMLImporterTest {
     XMLImporter importer;
     @BeforeEach
     public void init() throws FileNotFoundException {
-        this.in = new FileReader("c:/dp2020/testFile/test.xml");
+        this.in = new FileReader("c:/dp2020/testFile/student.xml");
         this.importer = new XMLImporter(in);
     }
     @Test

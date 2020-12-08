@@ -9,18 +9,18 @@ public class DataInfoVisitor implements ImporterVisitor {
             String target = csv.loadTableName() + "_Info_csv.txt";
             File info = new File(target);
             if(!info.exists()){
-                System.out.println(target + ": New database!!");
+                System.out.print(target + ": New database!!\n");
             }
             else{
                 BufferedReader in  = new BufferedReader(new FileReader(info));
                 String line = null;
                 while((line = in.readLine()) != null)
-                    System.out.println(line);
+                    System.out.print(line + "\n");
             }
-            System.out.println();
+            System.out.print("\n");
         }
         catch (Exception e){
-            System.out.println("File open failed");
+            System.out.print("File open failed\n");
         }
         finally {
             return 0;
@@ -33,18 +33,18 @@ public class DataInfoVisitor implements ImporterVisitor {
             String target = xml.loadTableName() + "_Info_xml.txt";
             File info = new File(target);
             if(!info.exists()){
-                System.out.println(target + ": New database!!");
+                System.out.print(target + ": New database!!\n");
             }
             else{
                 BufferedReader in  = new BufferedReader(new FileReader(info));
                 String line = null;
                 while((line = in.readLine()) != null)
-                    System.out.println(line);
+                    System.out.print(line + "\n");
             }
-            System.out.println();
+            System.out.print("\n");
         }
         catch (Exception e){
-            System.out.println("File open failed");
+            System.out.print("File open failed\n");
         }
         finally {
             return 0;

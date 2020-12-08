@@ -36,30 +36,28 @@ public class exporterTest {
 //        Key.add("1");
 //        Key.add("1");
 //        value.add("Hello");
-        Writer writer = new FileWriter("c:/dp2020/testFile/test.xml", false);
-        XMLExporter exporter = new XMLExporter(writer);
+        Writer writer = new FileWriter("c:/dp2020/testFile/student.csv", false);
+        CSVExporter csv = new CSVExporter(writer);
         String testTableName = "student";
         ArrayList columnNames = new ArrayList();
         columnNames.add("name");
         columnNames.add("score");
-        exporter.startTable();
-        exporter.storeMetadata(testTableName, columnNames.size(), 0, columnNames.iterator());
-
+        csv.storeMetadata(testTableName, columnNames.size(), 3, columnNames.iterator());
         ArrayList<String> info = new ArrayList<>();
         info.add("Shin");
         info.add("4.5");
-        exporter.storeRow(info.iterator());
+        csv.storeRow(info.iterator());
         info.clear();
 
         info.add("Seok");
         info.add("3.8");
-        exporter.storeRow(info.iterator());
+        csv.storeRow(info.iterator());
 
         info.clear();
         info.add("Gyeong");
         info.add("4.2");
-        exporter.storeRow(info.iterator());
-        exporter.endTable();
+        csv.storeRow(info.iterator());
+        csv.endTable();
         writer.close();
     }
 }
