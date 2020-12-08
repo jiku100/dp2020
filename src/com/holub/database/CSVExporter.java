@@ -83,7 +83,7 @@ public class CSVExporter implements Table.Exporter
 
 		out.write(tableName == null ? "<anonymous>" : tableName );
 		out.write("\n");
-		storeRow( columnNames ); // comma separated list of columns ids
+		storeRow( this.columnNames.iterator() ); // comma separated list of columns ids
 	}
 
 	public void storeRow( Iterator data ) throws IOException

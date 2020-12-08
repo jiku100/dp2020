@@ -28,6 +28,7 @@ public class WriteInfoVisitor implements ExporterVisitor{
             out.write("Number of Data: " + csv.getHeight() + "\n");
             out.write("Last Edit Time: " + timeFormat.format(time));
             out.close();
+            System.out.println("Edit " + target + "\n");
         }
         catch (Exception e){
             System.out.println("File open failed");
@@ -56,6 +57,7 @@ public class WriteInfoVisitor implements ExporterVisitor{
             out.write("Number of Data: " + html.getHeight() + "\n");
             out.write("Last Edit Time: " + timeFormat.format(time));
             out.close();
+            System.out.println("Edit " + target + "\n");
         }
         catch (Exception e){
             System.out.println("File open failed");
@@ -84,6 +86,7 @@ public class WriteInfoVisitor implements ExporterVisitor{
             out.write("Number of Data: " + xml.getHeight() + "\n");
             out.write("Last Edit Time: " + timeFormat.format(time));
             out.close();
+            System.out.println("Edit " + target + "\n");
         }
         catch (Exception e){
             System.out.println("File open failed");

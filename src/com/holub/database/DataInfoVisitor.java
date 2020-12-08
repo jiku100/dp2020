@@ -19,8 +19,8 @@ public class DataInfoVisitor implements ImporterVisitor {
                 String line = null;
                 while((line = in.readLine()) != null)
                     System.out.println(line);
-
             }
+            System.out.println();
         }
         catch (Exception e){
             System.out.println("File open failed");
@@ -43,8 +43,8 @@ public class DataInfoVisitor implements ImporterVisitor {
                 String line = null;
                 while((line = in.readLine()) != null)
                     System.out.println(line);
-
             }
+            System.out.println();
         }
         catch (Exception e){
             System.out.println("File open failed");

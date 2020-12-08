@@ -37,14 +37,14 @@ public class CheckEditVisitor implements ExporterVisitor {
             String[] columns = csv.getColumnNames().toArray(String[]::new);
             for(int i = 0; i<csv.getWidth();i++){
                 if(!columns[i].equals(colunmsInfo[i])){
-                    System.out.println(target + ": Edited Column Names" + colunmsInfo[i] + " -> " + columns[i]);
+                    System.out.println(target + ": Edited Column Names " + colunmsInfo[i] + " -> " + columns[i]);
                 }
             }
 
             line = in.readLine();
             parseInt = Integer.parseInt(line.substring(16, line.length()));
             if(csv.getHeight() != parseInt){
-                System.out.println(target + ": Edited Data Number" + parseInt + " -> " + csv.getHeight());
+                System.out.println(target + ": Edited Data Number " + parseInt + " -> " + csv.getHeight());
             }
         }catch (Exception e){
             System.out.println("File open failed");
@@ -85,14 +85,14 @@ public class CheckEditVisitor implements ExporterVisitor {
             String[] columns = html.getColumnNames().toArray(String[]::new);
             for(int i = 0; i<html.getWidth();i++){
                 if(!columns[i].equals(colunmsInfo[i])){
-                    System.out.println(target + ": Edited Column Names" + colunmsInfo[i] + " -> " + columns[i]);
+                    System.out.println(target + ": Edited Column Names " + colunmsInfo[i] + " -> " + columns[i]);
                 }
             }
 
             line = in.readLine();
             parseInt = Integer.parseInt(line.substring(16, line.length()));
             if(html.getHeight() != parseInt){
-                System.out.println(target + ": Edited Data Number" + parseInt + " -> " + html.getHeight());
+                System.out.println(target + ": Edited Data Number " + parseInt + " -> " + html.getHeight());
             }
         }catch (Exception e){
             System.out.println("File open failed");
@@ -133,14 +133,14 @@ public class CheckEditVisitor implements ExporterVisitor {
             String[] columns = xml.getColumnNames().toArray(String[]::new);
             for(int i = 0; i<xml.getWidth();i++){
                 if(!columns[i].equals(colunmsInfo[i])){
-                    System.out.println(target + ": Edited Column Names" + colunmsInfo[i] + " -> " + columns[i]);
+                    System.out.println(target + ": Edited Column Names " + colunmsInfo[i] + " -> " + columns[i]);
                 }
             }
 
             line = in.readLine();
             parseInt = Integer.parseInt(line.substring(16, line.length()));
             if(xml.getHeight() != parseInt){
-                System.out.println(target + ": Edited Data Number" + parseInt + " -> " + xml.getHeight());
+                System.out.println(target + ": Edited Data Number " + parseInt + " -> " + xml.getHeight());
             }
         }catch (Exception e){
             System.out.println("File open failed");
