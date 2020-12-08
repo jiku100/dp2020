@@ -119,11 +119,12 @@ import com.holub.tools.ArrayIterator;
 	public void export(Table.Exporter exporter) throws IOException {
 		exporter.startTable();
 		exporter.storeMetadata(tableName, columnNames.length, rowSet.size(), new ArrayIterator(columnNames));
-
+		exporter.accept(new CheckEditVisitor());
 		for (Iterator i = rowSet.iterator(); i.hasNext();)
 			exporter.storeRow(new ArrayIterator((Object[]) i.next()));
 
 		exporter.endTable();
+		exporter.accept(new WriteInfoVisitor());
 		isDirty = false;
 	}
 

@@ -14,10 +14,10 @@ public class WriteInfoVisitor implements ExporterVisitor{
         try{
             SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date time = new Date();
-            String target = csv.getTableName() + "_Info_xml.txt";
+            String target = csv.getTableName() + "_Info_csv.txt";
             Writer out = new FileWriter(target, false);
-            out.write("File Type: xml\n");
-            out.write("Data File name: " + csv.getTableName() + ".xml\n");
+            out.write("File Type: csv\n");
+            out.write("Data File name: " + csv.getTableName() + ".csv\n");
             out.write("Table Name: " + csv.getTableName() +"\n");
             out.write("Number of Column: " + csv.getWidth() + "\n");
             out.write("Kinds of Column: ");
@@ -42,10 +42,10 @@ public class WriteInfoVisitor implements ExporterVisitor{
         try{
             SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date time = new Date();
-            String target = html.getTableName() + "_Info_xml.txt";
+            String target = html.getTableName() + "_Info_html.txt";
             Writer out = new FileWriter(target, false);
-            out.write("File Type: xml\n");
-            out.write("Data File name: " + html.getTableName() + ".xml\n");
+            out.write("File Type: html\n");
+            out.write("Data File name: " + html.getTableName() + ".html\n");
             out.write("Table Name: " + html.getTableName() +"\n");
             out.write("Number of Column: " + html.getWidth() + "\n");
             out.write("Kinds of Column: ");
