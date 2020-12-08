@@ -12,42 +12,49 @@ public class CheckEditVisitor implements ExporterVisitor {
             String target = csv.getTableName() + "_Info_csv.txt";
             File info = new File(target);
             if(!info.exists()){
-                System.out.println(target + ": New database!!");
+                System.out.print(target + ": New database!!\n");
                 return 0;
             }
             BufferedReader in  = new BufferedReader(new FileReader(info));
             String line = in.readLine();
             if(!line.endsWith("csv")){
-                System.out.println(target + ": Wrong Info File Type");
+                System.out.print(target + ": Wrong Info File Type\n");
                 return -1;
             }
             line = in.readLine();
             line = in.readLine();
             if(!line.endsWith(csv.getTableName())){
-                System.out.println(target + ": Wrong Table Name");
+                System.out.print(target + ": Wrong Table Name\n");
                 return -1;
             }
             line = in.readLine();
             int parseInt = Integer.parseInt(line.substring(18, line.length()));
             if(csv.getWidth() != parseInt){
-                System.out.println(target + ": Edited Columns Number " + parseInt + " -> " + csv.getWidth());
+                System.out.print(target + ": Edited Columns Number " + parseInt + " -> " + csv.getWidth() +"\n");
             }
             line = in.readLine();
             String[] colunmsInfo = line.substring(17, line.length()).split(" ");
             String[] columns = csv.getColumnNames().toArray(String[]::new);
             for(int i = 0; i<csv.getWidth();i++){
-                if(!columns[i].equals(colunmsInfo[i])){
-                    System.out.println(target + ": Edited Column Names " + colunmsInfo[i] + " -> " + columns[i]);
+                String targetColumn = (i < colunmsInfo.length) ? colunmsInfo[i] : null;
+                if(targetColumn != null) {
+                    if(!columns[i].equals(targetColumn)){
+                        System.out.print(target + ": Edited Column Names " + targetColumn + " -> " + columns[i] +"\n");
+                    }
                 }
+                else{
+                    System.out.print(target + ": Add New Column Names -> " + columns[i] + "\n");
+                }
+
             }
 
             line = in.readLine();
             parseInt = Integer.parseInt(line.substring(16, line.length()));
             if(csv.getHeight() != parseInt){
-                System.out.println(target + ": Edited Data Number " + parseInt + " -> " + csv.getHeight());
+                System.out.print(target + ": Edited Data Number " + parseInt + " -> " + csv.getHeight() +"\n");
             }
         }catch (Exception e){
-            System.out.println("File open failed");
+            System.out.print("File open failed\n");
         }
         finally {
             return 0;
@@ -60,42 +67,49 @@ public class CheckEditVisitor implements ExporterVisitor {
             String target = html.getTableName() + "_Info_html.txt";
             File info = new File(target);
             if(!info.exists()){
-                System.out.println(target + ": New database!!");
+                System.out.print(target + ": New database!!\n");
                 return 0;
             }
             BufferedReader in  = new BufferedReader(new FileReader(info));
             String line = in.readLine();
             if(!line.endsWith("html")){
-                System.out.println(target + ": Wrong Info File Type");
+                System.out.print(target + ": Wrong Info File Type\n");
                 return -1;
             }
             line = in.readLine();
             line = in.readLine();
             if(!line.endsWith(html.getTableName())){
-                System.out.println(target + ": Wrong Table Name");
+                System.out.print(target + ": Wrong Table Name\n");
                 return -1;
             }
             line = in.readLine();
             int parseInt = Integer.parseInt(line.substring(18, line.length()));
             if(html.getWidth() != parseInt){
-                System.out.println(target + ": Edited Columns Number " + parseInt + " -> " + html.getWidth());
+                System.out.print(target + ": Edited Columns Number " + parseInt + " -> " + html.getWidth() +"\n");
             }
             line = in.readLine();
             String[] colunmsInfo = line.substring(17, line.length()).split(" ");
             String[] columns = html.getColumnNames().toArray(String[]::new);
             for(int i = 0; i<html.getWidth();i++){
-                if(!columns[i].equals(colunmsInfo[i])){
-                    System.out.println(target + ": Edited Column Names " + colunmsInfo[i] + " -> " + columns[i]);
+                String targetColumn = (i < colunmsInfo.length) ? colunmsInfo[i] : null;
+                if(targetColumn != null) {
+                    if(!columns[i].equals(targetColumn)){
+                        System.out.print(target + ": Edited Column Names " + targetColumn + " -> " + columns[i] +"\n");
+                    }
                 }
+                else{
+                    System.out.print(target + ": Add New Column Names -> " + columns[i] + "\n");
+                }
+
             }
 
             line = in.readLine();
             parseInt = Integer.parseInt(line.substring(16, line.length()));
             if(html.getHeight() != parseInt){
-                System.out.println(target + ": Edited Data Number " + parseInt + " -> " + html.getHeight());
+                System.out.print(target + ": Edited Data Number " + parseInt + " -> " + html.getHeight() +"\n");
             }
         }catch (Exception e){
-            System.out.println("File open failed");
+            System.out.print("File open failed\n");
         }
         finally {
             return 0;
@@ -108,42 +122,49 @@ public class CheckEditVisitor implements ExporterVisitor {
             String target = xml.getTableName() + "_Info_xml.txt";
             File info = new File(target);
             if(!info.exists()){
-                System.out.println(target + ": New database!!");
+                System.out.print(target + ": New database!!\n");
                 return 0;
             }
             BufferedReader in  = new BufferedReader(new FileReader(info));
             String line = in.readLine();
             if(!line.endsWith("xml")){
-                System.out.println(target + ": Wrong Info File Type");
+                System.out.print(target + ": Wrong Info File Type\n");
                 return -1;
             }
             line = in.readLine();
             line = in.readLine();
             if(!line.endsWith(xml.getTableName())){
-                System.out.println(target + ": Wrong Table Name");
+                System.out.print(target + ": Wrong Table Name\n");
                 return -1;
             }
             line = in.readLine();
             int parseInt = Integer.parseInt(line.substring(18, line.length()));
             if(xml.getWidth() != parseInt){
-                System.out.println(target + ": Edited Columns Number " + parseInt + " -> " + xml.getWidth());
+                System.out.print(target + ": Edited Columns Number " + parseInt + " -> " + xml.getWidth() +"\n");
             }
             line = in.readLine();
             String[] colunmsInfo = line.substring(17, line.length()).split(" ");
             String[] columns = xml.getColumnNames().toArray(String[]::new);
             for(int i = 0; i<xml.getWidth();i++){
-                if(!columns[i].equals(colunmsInfo[i])){
-                    System.out.println(target + ": Edited Column Names " + colunmsInfo[i] + " -> " + columns[i]);
+                String targetColumn = (i < colunmsInfo.length) ? colunmsInfo[i] : null;
+                if(targetColumn != null) {
+                    if(!columns[i].equals(targetColumn)){
+                        System.out.print(target + ": Edited Column Names " + targetColumn + " -> " + columns[i] +"\n");
+                    }
                 }
+                else{
+                    System.out.print(target + ": Add New Column Names -> " + columns[i] + "\n");
+                }
+
             }
 
             line = in.readLine();
             parseInt = Integer.parseInt(line.substring(16, line.length()));
             if(xml.getHeight() != parseInt){
-                System.out.println(target + ": Edited Data Number " + parseInt + " -> " + xml.getHeight());
+                System.out.print(target + ": Edited Data Number " + parseInt + " -> " + xml.getHeight() +"\n");
             }
         }catch (Exception e){
-            System.out.println("File open failed");
+            System.out.print("File open failed\n");
         }
         finally {
             return 0;
