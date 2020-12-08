@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<student>
+	<student>
+		<name>Shin</name>
+		<score>4.5</score>
+	</student>
+	<student>
+		<name>Seok</name>
+		<score>3.8</score>
+	</student>
+	<student>
+		<name>Gyeong</name>
+		<score>4.2</score>
+	</student>
+</student>

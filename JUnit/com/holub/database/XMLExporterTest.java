@@ -114,7 +114,7 @@ class XMLExporterTest {
         columnNames.add("score");
         exporter.storeMetadata(testTableName, columnNames.size(), 0, columnNames.iterator());
         exporter.endTable();
-        
+
         StringBuilder testString = new StringBuilder();
         testString.append("<student>\n");
         testString.append("</student>\n");

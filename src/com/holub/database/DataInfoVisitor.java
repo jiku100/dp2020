@@ -29,7 +29,7 @@ public class DataInfoVisitor implements ImporterVisitor {
             out.write("File Type: csv\n");
             out.write("Data File name: " + csv.loadTableName() + ".csv\n");
             printData(out, csv);
-            out.write("Number of Data: " + csv.accept(new rowNumVisitor()) + "\n");
+            out.write("Number of Data: " + csv.loadHeight() + "\n");
             out.write("Last Edit Time: " + timeFormat.format(time));
             out.close();
         }
@@ -51,7 +51,7 @@ public class DataInfoVisitor implements ImporterVisitor {
             out.write("File Type: xml\n");
             out.write("Data File name: " + xml.loadTableName() + ".xml\n");
             printData(out, xml);
-            out.write("Number of Data: " + xml.accept(new rowNumVisitor()) + "\n");
+            out.write("Number of Data: " + xml.loadHeight() + "\n");
             out.write("Last Edit Time: " + timeFormat.format(time));
             out.close();
         }

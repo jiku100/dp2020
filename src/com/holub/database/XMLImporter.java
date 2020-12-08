@@ -86,7 +86,7 @@ public class XMLImporter implements Table.Importer, ImporterAccept
             if(childList.getLength() > 0) {
                 for (int j = 0; j < childList.getLength(); j++) {
                     if(childList.item(j).getNodeName().equals("#text")==false) {
-                        value[i++] = childList.item(j).getTextContent().toString();
+                        value[i++] = childList.item(j).getTextContent();
                     }
                 }
             }
