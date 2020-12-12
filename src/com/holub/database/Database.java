@@ -806,8 +806,7 @@ public final class Database
 			affectedRows = doDelete( tableName, expr() );
 		}
 		else if( in.matchAdvance(SELECT) != null )
-		{	boolean distinct = false;
-			boolean orderby = false;
+		{
 			Table result = null;
 			ArrayList<PostProcess> processes = new ArrayList<PostProcess>();
 
@@ -823,18 +822,6 @@ public final class Database
 			in.required( FROM );
 			List requestedTableNames = idList();
 
-//			if(in.matchAdvance(LEFTOUTERJOIN) != null) {
-//				List outerjoinTableNames = idList();
-//				requestedTableNames.addAll(outerjoinTableNames);
-//				Expression on = (in.matchAdvance(ON) == null)
-//						? null : expr();
-//
-//				result = doSelect(columns, into, requestedTableNames, on);
-//				Table primary = (Table) tables.get(requestedTableNames.get(0));
-//				Cursor rows = result.rows();
-//				Cursor original = primary.rows();
-//			}
-
 			Expression where = (in.matchAdvance(WHERE) == null)
 								? null : expr();
 
@@ -842,12 +829,13 @@ public final class Database
 			if(in.matchAdvance(ORDERBY) != null)
 			{
 				if(columns == null){
-					Table temp = doSelect(columns, into,
-							requestedTableNames, where );
-					Cursor rows = temp.rows();
 					columns = new ArrayList<>();
-					for(int k = 0; k<rows.columnCount(); k++){
-						columns.add(rows.columnName(k));
+					for(int i = 0; i<requestedTableNames.size(); i++){
+						Table temp = (Table)tables.get(requestedTableNames.get(i));
+						Cursor c = temp.rows();
+						for(int k = 0; k<c.columnCount(); k++){
+							columns.add(c.columnName(k));
+						}
 					}
 				}
 				originalColumns = new String[columns.size()];
@@ -855,7 +843,6 @@ public final class Database
 				for(var s: columns)
 					originalColumns[idx++] = s.toString();
 
-				orderby = true;
 				String id;
 				int columnSize = originalColumns.length - 1;
 				int desc = 0;
@@ -873,53 +860,11 @@ public final class Database
 					if (in.matchAdvance(COMMA) == null)
 						break;
 				}
+				processes.add(new orderProcess(columns, orderColumns, originalColumns));
 			}
 			if(result == null)
 				result = doSelect(columns, into, requestedTableNames, where );
-			else{
-				Selector selector = (where == null) ? Selector.ALL : //{=Database.selector}
-						new Selector.Adapter()
-						{	public boolean approve(Cursor[] tables)
-						{	try
-						{
-							Value result = where.evaluate(tables);
 
-							verify( result instanceof BooleanValue,
-									"WHERE clause must yield boolean result" );
-							return ((BooleanValue)result).value();
-						}
-						catch( ParseFailure e )
-						{	throw new ThrowableContainer(e);
-						}
-						}
-						};
-				result = result.select(selector);
-			}
-
-			if(orderby){
-				Table orderTable = new ConcreteTable(null, originalColumns);
-				Cursor rows = result.rows();
-				List<Order> tempOrder = new ArrayList<Order>();
-				while(rows.advance()){
-					ArrayList row = new ArrayList();
-					Iterator it_row = rows.columns();
-					while(it_row.hasNext()){
-						row.add(it_row.next());
-					}
-					tempOrder.add(new Order(orderColumns, row.toArray()));
-				}
-				Collections.sort(tempOrder);
-				for(int i = 0; i<tempOrder.size();i++){
-					Iterator row = tempOrder.get(i).getRow();
-					String[] newRow = new String[originalColumns.length];
-					for(int j = 0; j<originalColumns.length; j++){
-						Object value = row.next();
-						newRow[j] = value == null ? null : value.toString();
-					}
-					orderTable.insert(originalColumns, newRow);
-				}
-				result = orderTable;
-			}
 			for(PostProcess p :processes){
 				result = p.process(result);
 			}
