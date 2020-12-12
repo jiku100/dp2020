@@ -25,19 +25,17 @@ public class HTMLExporter implements Table.Exporter
         while(columnNames.hasNext())
             this.columnNames.add(columnNames.next().toString());
 
-        out.write("\t<head>\n");
-        out.write("\t\t<title>");
-        out.write(tableName == null ? "anonymous" : tableName );
-        out.write("</title>\n");
-        out.write("\t</head>\n");
         out.write("\t<body>\n");
         out.write("\t\t<table>\n");
+        out.write("\t\t\t<caption>");
+        out.write(tableName == null ? "anonymous" : tableName );
+        out.write("</caption>\n");
         out.write("\t\t\t<thead>\n");
         out.write("\t\t\t\t<tr>\n");
-        if(columnNames.hasNext()){
+        columnNames = this.columnNames.iterator();
+        if(columnNames.hasNext()) {
             out.write("\t\t\t\t\t<th>");
         }
-        columnNames = this.columnNames.iterator();
         while( columnNames.hasNext() ) {
             Object datum = columnNames.next();
             out.write(datum.toString() + "</th>");
@@ -73,6 +71,7 @@ public class HTMLExporter implements Table.Exporter
     public void startTable() throws IOException {
         out.write("<!DOCTYPE html>\n");
         out.write("<html>\n");
+        out.write("\t<head></head>\n");
     }
     public void endTable()   throws IOException {
         out.write("\t\t\t</tbody>\n");
