@@ -409,9 +409,6 @@ public final class Database
 		ORDERBY		= tokens.create( "'ORDER BY"),
 		DESC		= tokens.create( "'DESC"),
 		ASC			= tokens.create( "'ASC"),
-		LEFTOUTERJOIN = tokens.create("'LEFT OUTER JOIN"),
-	    RIGHTOUTERJOIN = tokens.create("'RIGHT OUTER JOIN"),
-        ON			= tokens.create("'ON"),
 
 		WORK		= tokens.create( "WORK|TRAN(SACTION)?"		),
 		ADDITIVE	= tokens.create( "\\+|-" 					),
@@ -1280,8 +1277,8 @@ public final class Database
 			return new BooleanValue
 			( 	( operator == EQ	  ) ? ( l == r ) :
 			  	( operator == NE	  ) ? ( l != r ) :
-				( operator == LT  	  ) ? ( l >  r ) :
-				( operator == GT  	  ) ? ( l <  r ) :
+				( operator == LT  	  ) ? ( l <  r ) :	// error fixed
+				( operator == GT  	  ) ? ( l >  r ) :
 				( operator == LE 	  ) ? ( l <= r ) :
 				/* operator == GE	 */   ( l >= r )
 			);

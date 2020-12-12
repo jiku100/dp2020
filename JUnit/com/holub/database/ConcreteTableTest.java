@@ -16,7 +16,7 @@ class ConcreteTableTest {
         String[] requestedColumns = null;
         Table[] otherTables = new Table[]{bank};
         Selector where = Selector.ALL;
-        Table testTable = student.select(where, requestedColumns, otherTables);
+        Table testTable = student.select(where, requestedColumns, otherTables); // Select *
         Cursor rows = testTable.rows();
 
         String[] targetColumnName = new String[]{"name", "score", "id", "password", "money"};
