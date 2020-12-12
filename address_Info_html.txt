@@ -1,0 +1,7 @@
+File Type: html
+Data File name: address.html
+Table Name: address
+Number of Column: 5
+Kinds of Column: addrId street city state zip 
+Number of Data: 2
+Last Edit Time: 2020-12-13 00:13:22

@@ -37,6 +37,7 @@ public class HTMLExporter implements Table.Exporter
         if(columnNames.hasNext()){
             out.write("\t\t\t\t\t<th>");
         }
+        columnNames = this.columnNames.iterator();
         while( columnNames.hasNext() ) {
             Object datum = columnNames.next();
             out.write(datum.toString() + "</th>");
