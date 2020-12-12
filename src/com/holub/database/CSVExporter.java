@@ -96,6 +96,8 @@ public class CSVExporter implements Table.Exporter
 			// if the column data is null.
 			if( datum != null )	
 				out.write( datum.toString() );
+			else
+				out.write("null");
 
 			if( --i > 0 )
 				out.write(",\t");
@@ -105,19 +107,15 @@ public class CSVExporter implements Table.Exporter
 
 	public void startTable() throws IOException {/*nothing to do*/}
 	public void endTable()   throws IOException {/*nothing to do*/}
-
 	public int getWidth() {
 		return this.width;
 	}
-
 	public int getHeight() {
 		return this.height;
 	}
-
 	public String getTableName() {
 		return this.tableName;
 	}
-
 	public ArrayList<String> getColumnNames() {
 		return this.columnNames;
 	}

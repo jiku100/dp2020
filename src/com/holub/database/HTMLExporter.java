@@ -13,13 +13,11 @@ public class HTMLExporter implements Table.Exporter
     public HTMLExporter( Writer out )
     {	this.out = out;
     }
-
     public void storeMetadata( String tableName,
                                int width,
                                int height,
-                               Iterator columnNames ) throws IOException
-
-    {	this.width = width;
+                               Iterator columnNames ) throws IOException {
+        this.width = width;
         this.height = height;
         this.tableName = tableName == null ? "anonymous" : tableName;
         while(columnNames.hasNext())
@@ -47,27 +45,19 @@ public class HTMLExporter implements Table.Exporter
         out.write("\t\t\t</thead>\n");
         out.write("\t\t\t<tbody>\n");
     }
-
-    public void storeRow( Iterator data ) throws IOException
-    {
+    public void storeRow( Iterator data ) throws IOException {
         if(data.hasNext()){
             out.write("\t\t\t\t<tr>");
         }
         while( data.hasNext() )
         {	Object datum = data.next();
 
-            // Null columns are represented by an empty field
-            // (two commas in a row). There's nothing to write
-            // if the column data is null.
-            if( datum != null ){
-                out.write("<td>");
-                out.write( datum.toString() );
-                out.write("</td>");
-            }
+            out.write("<td>");
+            out.write( datum == null ? "null" : datum.toString());
+            out.write("</td>");
         }
         out.write("</tr>\n");
     }
-
     public void startTable() throws IOException {
         out.write("<!DOCTYPE html>\n");
         out.write("<html>\n");
@@ -82,19 +72,15 @@ public class HTMLExporter implements Table.Exporter
     public int getWidth() {
         return this.width;
     }
-
     public int getHeight() {
         return this.height;
     }
-
     public String getTableName() {
         return this.tableName;
     }
-
     public ArrayList<String> getColumnNames() {
         return this.columnNames;
     }
-
     @Override
     public int accept(ExporterVisitor visitor) {
         return visitor.visit(this);
