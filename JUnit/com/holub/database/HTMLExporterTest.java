@@ -41,13 +41,9 @@ class HTMLExporterTest {
         exporter.storeMetadata(testTableName, columnNames.size(), 0, columnNames.iterator());
 
         StringBuilder testString = new StringBuilder();
-        testString.append("\t<head>\n");
-        testString.append("\t\t<title>");
-        testString.append("student");
-        testString.append("</title>\n");
-        testString.append("\t</head>\n");
         testString.append("\t<body>\n");
         testString.append("\t\t<table>\n");
+        testString.append("\t\t\t<caption>student</caption>\n");
         testString.append("\t\t\t<thead>\n");
         testString.append("\t\t\t\t<tr>\n");
         testString.append("\t\t\t\t\t<th>");
@@ -58,9 +54,8 @@ class HTMLExporterTest {
         testString.append("\t\t\t</thead>\n");
         testString.append("\t\t\t<tbody>\n");
 
-        assertEquals(out.getCallCount(), 16);
+        assertEquals(out.getCallCount(), 14);
         assertEquals(out.getOutputs(), testString.toString());
-
     }
 
     @Test
@@ -98,8 +93,9 @@ class HTMLExporterTest {
         StringBuilder testString = new StringBuilder();
         testString.append("<!DOCTYPE html>\n");
         testString.append("<html>\n");
+        testString.append("\t<head></head>\n");
         exporter.startTable();
-        assertEquals(out.getCallCount(), 2);
+        assertEquals(out.getCallCount(), 3);
         assertEquals(out.getOutputs(), testString.toString());
     }
 
