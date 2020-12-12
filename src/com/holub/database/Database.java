@@ -809,8 +809,10 @@ public final class Database
 		{	boolean distinct = false;
 			boolean orderby = false;
 			Table result = null;
+			ArrayList<PostProcess> processes = new ArrayList<PostProcess>();
+
 			if(in.matchAdvance(DISTINCT) != null)
-				distinct = true;
+				processes.add(new distinctProcess());
 
 			List columns = idList();
 			String[] originalColumns = null;
@@ -821,17 +823,17 @@ public final class Database
 			in.required( FROM );
 			List requestedTableNames = idList();
 
-			if(in.matchAdvance(LEFTOUTERJOIN) != null) {
-				List outerjoinTableNames = idList();
-				requestedTableNames.addAll(outerjoinTableNames);
-				Expression on = (in.matchAdvance(ON) == null)
-						? null : expr();
-
-				result = doSelect(columns, into, requestedTableNames, on);
-				Table primary = (Table) tables.get(requestedTableNames.get(0));
-				Cursor rows = result.rows();
-				Cursor original = primary.rows();
-			}
+//			if(in.matchAdvance(LEFTOUTERJOIN) != null) {
+//				List outerjoinTableNames = idList();
+//				requestedTableNames.addAll(outerjoinTableNames);
+//				Expression on = (in.matchAdvance(ON) == null)
+//						? null : expr();
+//
+//				result = doSelect(columns, into, requestedTableNames, on);
+//				Table primary = (Table) tables.get(requestedTableNames.get(0));
+//				Cursor rows = result.rows();
+//				Cursor original = primary.rows();
+//			}
 
 			Expression where = (in.matchAdvance(WHERE) == null)
 								? null : expr();
@@ -894,38 +896,6 @@ public final class Database
 				result = result.select(selector);
 			}
 
-			if(distinct) {
-				Cursor rows = result.rows();
-				int i = 0;
-				int numOverlapRow;
-				int numOverlapCol;
-				while (rows.advance()) {
-					numOverlapRow = 0;
-					i++;
-
-					Cursor targetRows = result.rows();
-					for (int j = 0; j < i; j++) {
-						targetRows.advance();
-						
-						numOverlapCol = 0;
-						for (int k = 0; k < rows.columnCount(); k++) {
-							String value1 = rows.column(rows.columnName(k)) == null ? "null" : rows.column(rows.columnName(k)).toString();
-							String value2 = targetRows.column(targetRows.columnName(k)) == null ? "null" : targetRows.column(targetRows.columnName(k)).toString();
-							if (value1.equals(value2))
-								numOverlapCol++;
-						}
-						if (numOverlapCol == targetRows.columnCount()) {
-							numOverlapRow++;
-						}
-					}
-					if(numOverlapRow > 1){
-						rows.delete();
-						rows = result.rows();
-						i = 0;
-					}
-				}
-			}
-
 			if(orderby){
 				Table orderTable = new ConcreteTable(null, originalColumns);
 				Cursor rows = result.rows();
@@ -949,6 +919,9 @@ public final class Database
 					orderTable.insert(originalColumns, newRow);
 				}
 				result = orderTable;
+			}
+			for(PostProcess p :processes){
+				result = p.process(result);
 			}
 			return result;
 		}
