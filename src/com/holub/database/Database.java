@@ -808,10 +808,10 @@ public final class Database
 		else if( in.matchAdvance(SELECT) != null )
 		{
 			Table result = null;
-			ArrayList<PostProcess> processes = new ArrayList<PostProcess>();
+			ProcessedTable processedTable = new rawTable();
 
 			if(in.matchAdvance(DISTINCT) != null)
-				processes.add(new distinctProcess());
+				processedTable = new distinctProcess(processedTable);
 
 			List columns = idList();
 			String[] originalColumns = null;
@@ -860,14 +860,13 @@ public final class Database
 					if (in.matchAdvance(COMMA) == null)
 						break;
 				}
-				processes.add(new orderProcess(columns, orderColumns, originalColumns));
+				processedTable = new orderProcess(processedTable, columns, orderColumns, originalColumns);
 			}
 			if(result == null)
 				result = doSelect(columns, into, requestedTableNames, where );
 
-			for(PostProcess p :processes){
-				result = p.process(result);
-			}
+			processedTable.setRawTable(result);
+			result = processedTable.process();
 			return result;
 		}
 		else

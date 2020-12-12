@@ -6,18 +6,25 @@ import javax.xml.crypto.Data;
 import java.beans.Expression;
 import java.util.*;
 
-public class orderProcess implements PostProcess {
+public class orderProcess extends ProcessOption {
     List columns;
     Map orderColumns;
     String[] originalColumns;
-    public orderProcess(List columns, Map orderColumns, String[] originalColumns){
+    public orderProcess(ProcessedTable processedTable, List columns, Map orderColumns, String[] originalColumns){
+        this.processedTable = processedTable;
         this.columns = columns;
         this.orderColumns = orderColumns;
         this.originalColumns = originalColumns;
     }
 
     @Override
-    public Table process(Table table) {
+    public void setRawTable(Table table) {
+        processedTable.setRawTable(table);
+    }
+
+    @Override
+    public Table process() {
+        Table table = processedTable.process();
         Table orderTable = new ConcreteTable(null, originalColumns);
         Cursor rows = table.rows();
         List<Order> tempOrder = new ArrayList<Order>();

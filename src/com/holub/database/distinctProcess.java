@@ -1,8 +1,18 @@
 package com.holub.database;
 
-public class distinctProcess implements PostProcess {
+public class distinctProcess extends ProcessOption {
+    public distinctProcess(ProcessedTable processedTable){
+        this.processedTable = processedTable;
+    }
+
     @Override
-    public Table process(Table table) {
+    public void setRawTable(Table table) {
+        processedTable.setRawTable(table);
+    }
+
+    @Override
+    public Table process() {
+        Table table = processedTable.process();
         Cursor rows = table.rows();
         int i = 0;
         int numOverlapRow;
