@@ -19,8 +19,6 @@ class WriteInfoVisitorTest {
         public void write(char[] cbuf, int off, int len) throws IOException {}
 
         public void write(String buffer){
-            if(buffer.startsWith("Last"))
-                return;
             outputs.append(buffer);
             callCount++;
         }

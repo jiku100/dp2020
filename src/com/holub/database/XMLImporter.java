@@ -10,7 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.util.*;
 
-public class XMLImporter implements Table.Importer, ImporterAcceptor
+public class XMLImporter implements Table.Importer
 {	private BufferedReader  in;			// null once end-of-file reached
     private String[]        columnNames;
     private String          tableName;

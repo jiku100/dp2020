@@ -60,7 +60,7 @@ import java.util.*;
  * @see CSVImporter
  */
 
-public class CSVExporter implements Table.Exporter, ExporterAcceptor
+public class CSVExporter implements Table.Exporter
 {	private final Writer out;
 	private 	  int	 width;
 	private       int    height;

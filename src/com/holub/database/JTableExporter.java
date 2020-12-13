@@ -91,6 +91,26 @@ public class JTableExporter implements Table.Exporter
 	public void endTable() throws IOException {/*nothing to do*/}
 
 	@Override
+	public int getWidth() {
+		return columnHeads.length;
+	}
+
+	@Override
+	public int getHeight() {
+		return rowIndex;
+	}
+
+	@Override
+	public String getTableName() {
+		return null;
+	}
+
+	@Override
+	public ArrayList<String> getColumnNames() {
+		return new ArrayList<String>(Arrays.asList(columnHeads));
+	}
+
+	@Override
 	public int accept(ExporterVisitor visitor) {
 		return 0;
 	}
