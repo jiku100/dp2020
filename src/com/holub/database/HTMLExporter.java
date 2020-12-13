@@ -3,7 +3,7 @@ package com.holub.database;
 import java.io.*;
 import java.util.*;
 
-public class HTMLExporter implements Table.Exporter
+public class HTMLExporter implements Table.Exporter, ExporterAcceptor
 {	private final Writer out;
     private 	  int	 width;
     private       int    height;

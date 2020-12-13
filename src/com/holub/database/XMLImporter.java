@@ -10,7 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.util.*;
 
-public class XMLImporter implements Table.Importer
+public class XMLImporter implements Table.Importer, ImporterAcceptor
 {	private BufferedReader  in;			// null once end-of-file reached
     private String[]        columnNames;
     private String          tableName;
@@ -86,7 +86,6 @@ public class XMLImporter implements Table.Importer
 
     public void endTable() throws IOException {}
 
-    @Override
     public int accept(ImporterVisitor visitor) {
         return visitor.visit(this);
     }
