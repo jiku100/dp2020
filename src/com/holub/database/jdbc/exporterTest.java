@@ -13,18 +13,25 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
+import java.util.*;
 
 
 public class exporterTest {
     public static void main(String[] args) throws IOException {
-        Table address = TableFactory.load("name.csv", "c:/dp2020");
-        Writer writer = new FileWriter("c:/dp2020/" + address.name() +".xml", false);
-        XMLExporter html = new XMLExporter(writer);
-        address.export(html);
-        writer.close();
+        Reader in = new FileReader("name.xml");
+        XMLImporter xml = new XMLImporter(in);
+        xml.startTable();
+        System.out.println(xml.loadTableName());
+        Iterator columns = xml.loadColumnNames();
+        while(columns.hasNext()){
+            System.out.print(columns.next().toString() + " ");
+        }
+        System.out.println();
+        while ((columns = xml.loadRow()) != null) {
+            for (int i = 0; columns.hasNext();)
+                System.out.print(columns.next().toString() + " ");
+            System.out.println();
+        }
+        xml.endTable();
     }
 }

@@ -34,31 +34,19 @@ public class XMLImporter implements Table.Importer
 
             // child node 취득
             this.list = element.getElementsByTagName(tableName);
-            int length = 0;
+            ArrayList<String> columnNamesAry = new ArrayList<String>();
             if(list.getLength() > 0) {
-                for(int i=0; i<list.getLength(); i++) {
-                    NodeList childList = list.item(i).getChildNodes();
-                    if(childList.getLength() > 0) {
-                        for (int j = 0; j < childList.getLength(); j++) {
-                            if(childList.item(j).getNodeName().equals("#text")==false) {
-                                length++;
-                            }
+                NodeList childList = list.item(0).getChildNodes();
+                if(childList.getLength() > 0) {
+                    for (int j = 0; j < childList.getLength(); j++) {
+                        if(childList.item(j).getNodeName().equals("#text")==false) {
+                            columnNamesAry.add(childList.item(j).getNodeName());
+                            width++;
                         }
                     }
                 }
             }
-
-            width = length / list.getLength();
-            this.columnNames = new String[width];
-            int i = 0;
-            NodeList childList = list.item(0).getChildNodes();
-            if(childList.getLength() > 0) {
-                for (int j = 0; j < childList.getLength(); j++) {
-                    if(childList.item(j).getNodeName().equals("#text")==false) {
-                        columnNames[i++] = childList.item(j).getNodeName();
-                    }
-                }
-            }
+            this.columnNames = columnNamesAry.toArray(String[]::new);
         } catch (Exception e) {
             e.printStackTrace();
         }

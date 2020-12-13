@@ -41,12 +41,10 @@ class XMLImporterTest {
         ArrayList columnNames = new ArrayList();
         columnNames.add("name");
         columnNames.add("score");
-        assertEquals(importer.loadWidth(), columnNames.size());
         Iterator targetColumnNames = columnNames.iterator();
         Iterator tableColumnNames = importer.loadColumnNames();
         while(targetColumnNames.hasNext())
             assertEquals(tableColumnNames.next(), targetColumnNames.next());
-        assertEquals(importer.loadHeight(), 3);
     }
 
     @Test
