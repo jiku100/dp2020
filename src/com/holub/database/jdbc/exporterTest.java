@@ -22,8 +22,8 @@ import java.util.TreeMap;
 public class exporterTest {
     public static void main(String[] args) throws IOException {
         Table address = TableFactory.load("name.csv", "c:/dp2020");
-        Writer writer = new FileWriter("c:/dp2020/" + address.name() +".html", false);
-        HTMLExporter html = new HTMLExporter(writer);
+        Writer writer = new FileWriter("c:/dp2020/" + address.name() +".xml", false);
+        XMLExporter html = new XMLExporter(writer);
         address.export(html);
         writer.close();
     }

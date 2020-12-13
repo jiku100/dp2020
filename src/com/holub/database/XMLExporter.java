@@ -41,15 +41,10 @@ public class XMLExporter implements Table.Exporter
         while( data.hasNext())
         {	Object datum = data.next();
 
-            // Null columns are represented by an empty field
-            // (two commas in a row). There's nothing to write
-            // if the column data is null.
-            if( datum != null ){
-                String temp = columnNames.get(i);
-                out.write("\t\t<" + temp + ">");
-                out.write( datum.toString() );
-                out.write("</" + temp + ">\n");
-            }
+            String temp = columnNames.get(i);
+            out.write("\t\t<" + temp + ">");
+            out.write( datum == null ? "null" : datum.toString());
+            out.write("</" + temp + ">\n");
 
             if( i < width )
                 i++;

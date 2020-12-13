@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<name>
+	<name>
+		<first>Fred</first>
+		<last>Flintstone</last>
+		<addrId>1</addrId>
+	</name>
+	<name>
+		<first>Wilma</first>
+		<last>Flintstone</last>
+		<addrId>1</addrId>
+	</name>
+	<name>
+		<first>Allen</first>
+		<last>Holub</last>
+		<addrId>0</addrId>
+	</name>
+	<name>
+		<first>Allen</first>
+		<last>Holub</last>
+		<addrId>0</addrId>
+	</name>
+	<name>
+		<first>Wilma</first>
+		<last>Flintstone</last>
+		<addrId>1</addrId>
+	</name>
+	<name>
+		<first>Seok</first>
+		<last>Shin</last>
+		<addrId>3</addrId>
+	</name>
+	<name>
+		<first>Seok</first>
+		<last>Gyeong</last>
+		<addrId>2</addrId>
+	</name>
+</name>

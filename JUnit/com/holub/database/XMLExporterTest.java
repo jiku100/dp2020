@@ -109,7 +109,7 @@ class XMLExporterTest {
         WriterMock out = new WriterMock();
         XMLExporter exporter = new XMLExporter(out);
         String testTableName = "student";
-        ArrayList columnNames = new ArrayList();
+        ArrayList<String> columnNames = new ArrayList<String>();
         columnNames.add("name");
         columnNames.add("score");
         exporter.storeMetadata(testTableName, columnNames.size(), 0, columnNames.iterator());

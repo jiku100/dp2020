@@ -1,0 +1,7 @@
+File Type: xml
+Data File name: name.xml
+Table Name: name
+Number of Column: 3
+Kinds of Column: first last addrId 
+Number of Data: 7
+Last Edit Time: 2020-12-13 19:59:21
