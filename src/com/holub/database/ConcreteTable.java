@@ -450,6 +450,7 @@ import com.holub.tools.ArrayIterator;
 		if (otherTables == null || otherTables.length == 0)
 			return select(where, requestedColumns);
 
+		// additional code from SeokGyeong
 		if(requestedColumns == null){	// if Select *
 			List columns = new ArrayList();
 			for(var s: columnNames){

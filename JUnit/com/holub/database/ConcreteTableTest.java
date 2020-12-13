@@ -13,6 +13,7 @@ class ConcreteTableTest {
 
         String[] bankColumnNames = new String[]{"id", "password", "money"};
         Table bank = new ConcreteTable("bank", bankColumnNames);
+
         String[] requestedColumns = null;
         Table[] otherTables = new Table[]{bank};
         Selector where = Selector.ALL;
