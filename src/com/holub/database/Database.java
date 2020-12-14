@@ -811,7 +811,7 @@ public final class Database
 				processedTable = new distinctProcess(processedTable);
 
 			List columns = idList();
-			String[] originalColumns = null;
+
 			String into = null;
 			if( in.matchAdvance(INTO) != null )
 				into = in.required(IDENTIFIER);
@@ -822,10 +822,11 @@ public final class Database
 			Expression where = (in.matchAdvance(WHERE) == null)
 								? null : expr();
 
-			Map orderColumns = new LinkedHashMap<Integer, Integer>();
 			if(in.matchAdvance(ORDERBY) != null)
 			{
-				if(columns == null){
+				Map orderColumns = new LinkedHashMap<Integer, Integer>();
+				String[] originalColumns = null;
+				if(columns == null){	// select *
 					columns = new ArrayList<>();
 					for(int i = 0; i<requestedTableNames.size(); i++){
 						Table temp = (Table)tables.get(requestedTableNames.get(i));
@@ -859,8 +860,8 @@ public final class Database
 				}
 				processedTable = new orderProcess(processedTable, columns, orderColumns, originalColumns);
 			}
-			if(result == null)
-				result = doSelect(columns, into, requestedTableNames, where );
+
+			result = doSelect(columns, into, requestedTableNames, where );
 
 			processedTable.setRawTable(result);
 			result = processedTable.process();
