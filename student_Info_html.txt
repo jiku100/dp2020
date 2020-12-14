@@ -4,4 +4,4 @@ Table Name: student
 Number of Column: 2
 Kinds of Column: name score 
 Number of Data: 3
-Last Edit Time: 2020-12-14 02:07:41
+Last Edit Time: 2020-12-14 22:11:35

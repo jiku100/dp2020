@@ -21,4 +21,11 @@
 		<state>CA</state>
 		<zip>12334</zip>
 	</address_xml>
+	<address_xml>
+		<addrId>1000</addrId>
+		<street>Shin</street>
+		<city>Seoul</city>
+		<state>CC</state>
+		<zip>11111</zip>
+	</address_xml>
 </address_xml>

@@ -52,9 +52,8 @@ Some Database file
 4. name.csv
 5. name.html
 6. name.xml
-7. name_test.csv
-8. ./testFile/student.csv
-9. ./testFile/student.xml
+7. ./testFile/student.csv
+8. ./testFile/student.xml
 
 Some Info file
 1. address_Info_csv.txt
