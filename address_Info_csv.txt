@@ -3,5 +3,5 @@ Data File name: address.csv
 Table Name: address
 Number of Column: 5
 Kinds of Column: addrId street city state zip 
-Number of Data: 3
-Last Edit Time: 2020-12-14 12:01:57
+Number of Data: 5
+Last Edit Time: 2020-12-14 15:11:14
