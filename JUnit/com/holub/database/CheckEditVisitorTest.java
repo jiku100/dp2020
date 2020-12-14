@@ -2,8 +2,10 @@ package com.holub.database;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.text.html.HTML;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -23,8 +25,6 @@ class CheckEditVisitorTest {
         public void write(char[] cbuf, int off, int len) throws IOException {}
 
         public void write(String buffer){
-            if(buffer.startsWith("Last"))
-                return;
             outputs.append(buffer);
             callCount++;
         }
@@ -55,7 +55,8 @@ class CheckEditVisitorTest {
         System.setErr(originalErr);
     }
     @Test
-    void CSVvisit() throws IOException {
+    @DisplayName("칼럼 개수, 새로운 칼럼, 데이터 개수 변경 테스트")
+    void CSVvisit1() throws IOException {
         WriterMock writer = new WriterMock();
         CSVExporter csv = new CSVExporter(writer);
         String testTableName = "student";
@@ -74,7 +75,25 @@ class CheckEditVisitorTest {
     }
 
     @Test
-    void HTMLvisit() throws IOException {
+    @DisplayName("칼럼 삭제 테스트")
+    void CSVvisit2() throws IOException {
+        WriterMock writer = new WriterMock();
+        CSVExporter csv = new CSVExporter(writer);
+        String testTableName = "student";
+        ArrayList columnNames = new ArrayList();
+        columnNames.add("name");
+        csv.storeMetadata(testTableName, columnNames.size(), 3, columnNames.iterator());
+        csv.accept(new CheckEditVisitor());
+
+        StringBuilder testString = new StringBuilder();
+        testString.append("student_Info_csv.txt: Edited Columns Number 2 -> 1\n");
+        testString.append("student_Info_csv.txt: Delete Column Names -> score\n");
+        assertEquals(testString.toString(), outContent.toString());
+    }
+
+    @Test
+    @DisplayName("(HTML)칼럼 개수, 새로운 칼럼, 데이터 개수 변경 테스트")
+    void HTMLvisit1() throws IOException {
         WriterMock writer = new WriterMock();
         HTMLExporter html = new HTMLExporter(writer);
         String testTableName = "student";
@@ -93,6 +112,24 @@ class CheckEditVisitorTest {
     }
 
     @Test
+    @DisplayName("(HTML)칼럼 삭제 테스트")
+    void HTMLvisit2() throws IOException {
+        WriterMock writer = new WriterMock();
+        HTMLExporter csv = new HTMLExporter(writer);
+        String testTableName = "student";
+        ArrayList columnNames = new ArrayList();
+        columnNames.add("name");
+        csv.storeMetadata(testTableName, columnNames.size(), 3, columnNames.iterator());
+        csv.accept(new CheckEditVisitor());
+
+        StringBuilder testString = new StringBuilder();
+        testString.append("student_Info_html.txt: Edited Columns Number 2 -> 1\n");
+        testString.append("student_Info_html.txt: Delete Column Names -> score\n");
+        assertEquals(testString.toString(), outContent.toString());
+    }
+
+    @Test
+    @DisplayName("(XML)칼럼 개수, 새로운 칼럼, 데이터 개수 변경 테스트")
     void XMLvisit() throws IOException {
         WriterMock writer = new WriterMock();
         XMLExporter html = new XMLExporter(writer);
@@ -108,6 +145,23 @@ class CheckEditVisitorTest {
         testString.append("student_Info_xml.txt: Edited Columns Number 2 -> 3\n");
         testString.append("student_Info_xml.txt: Add New Column Names -> major\n");
         testString.append("student_Info_xml.txt: Edited Data Number 3 -> 5\n");
+        assertEquals(testString.toString(), outContent.toString());
+    }
+
+    @Test
+    @DisplayName("(XML)칼럼 삭제 테스트")
+    void XMLvisit2() throws IOException {
+        WriterMock writer = new WriterMock();
+        XMLExporter csv = new XMLExporter(writer);
+        String testTableName = "student";
+        ArrayList columnNames = new ArrayList();
+        columnNames.add("name");
+        csv.storeMetadata(testTableName, columnNames.size(), 3, columnNames.iterator());
+        csv.accept(new CheckEditVisitor());
+
+        StringBuilder testString = new StringBuilder();
+        testString.append("student_Info_xml.txt: Edited Columns Number 2 -> 1\n");
+        testString.append("student_Info_xml.txt: Delete Column Names -> score\n");
         assertEquals(testString.toString(), outContent.toString());
     }
 }

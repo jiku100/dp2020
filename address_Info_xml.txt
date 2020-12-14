@@ -1,7 +1,0 @@
-File Type: xml
-Data File name: address.xml
-Table Name: address
-Number of Column: 5
-Kinds of Column: addrId street city state zip 
-Number of Data: 2
-Last Edit Time: 2020-12-05 19:50:55

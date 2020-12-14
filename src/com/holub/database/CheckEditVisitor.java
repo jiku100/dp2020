@@ -35,7 +35,8 @@ public class CheckEditVisitor implements ExporterVisitor {
             line = in.readLine();
             String[] colunmsInfo = line.substring(17, line.length()).split(" ");
             String[] columns = csv.getColumnNames().toArray(String[]::new);
-            for(int i = 0; i<csv.getWidth();i++){
+            int i = 0;
+            for(i = 0; i<csv.getWidth();i++){
                 String targetColumn = (i < colunmsInfo.length) ? colunmsInfo[i] : null;
                 if(targetColumn != null) {
                     if(!columns[i].equals(targetColumn)){
@@ -45,7 +46,11 @@ public class CheckEditVisitor implements ExporterVisitor {
                 else{
                     System.out.print(target + ": Add New Column Names -> " + columns[i] + "\n");
                 }
-
+            }
+            if(i < colunmsInfo.length){
+                for(; i<colunmsInfo.length; i++){
+                    System.out.print(target + ": Delete Column Names -> " + colunmsInfo[i] + "\n");
+                }
             }
 
             line = in.readLine();
@@ -90,7 +95,8 @@ public class CheckEditVisitor implements ExporterVisitor {
             line = in.readLine();
             String[] colunmsInfo = line.substring(17, line.length()).split(" ");
             String[] columns = html.getColumnNames().toArray(String[]::new);
-            for(int i = 0; i<html.getWidth();i++){
+            int i = 0;
+            for(i = 0; i<html.getWidth();i++){
                 String targetColumn = (i < colunmsInfo.length) ? colunmsInfo[i] : null;
                 if(targetColumn != null) {
                     if(!columns[i].equals(targetColumn)){
@@ -100,7 +106,11 @@ public class CheckEditVisitor implements ExporterVisitor {
                 else{
                     System.out.print(target + ": Add New Column Names -> " + columns[i] + "\n");
                 }
-
+            }
+            if(i < colunmsInfo.length){
+                for(; i<colunmsInfo.length; i++){
+                    System.out.print(target + ": Delete Column Names -> " + colunmsInfo[i] + "\n");
+                }
             }
 
             line = in.readLine();
@@ -145,7 +155,8 @@ public class CheckEditVisitor implements ExporterVisitor {
             line = in.readLine();
             String[] colunmsInfo = line.substring(17, line.length()).split(" ");
             String[] columns = xml.getColumnNames().toArray(String[]::new);
-            for(int i = 0; i<xml.getWidth();i++){
+            int i = 0;
+            for(i = 0; i<xml.getWidth();i++){
                 String targetColumn = (i < colunmsInfo.length) ? colunmsInfo[i] : null;
                 if(targetColumn != null) {
                     if(!columns[i].equals(targetColumn)){
@@ -155,7 +166,11 @@ public class CheckEditVisitor implements ExporterVisitor {
                 else{
                     System.out.print(target + ": Add New Column Names -> " + columns[i] + "\n");
                 }
-
+            }
+            if(i < colunmsInfo.length){
+                for(; i<colunmsInfo.length; i++){
+                    System.out.print(target + ": Delete Column Names -> " + colunmsInfo[i] + "\n");
+                }
             }
 
             line = in.readLine();
