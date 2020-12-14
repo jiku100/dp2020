@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<address>
-	<address>
+<address_xml>
+	<address_xml>
 		<addrId>100</addrId>
 		<street>tjrrud</street>
 		<city>Jeonju</city>
 		<state>asda</state>
 		<zip>10000</zip>
-	</address>
-	<address>
+	</address_xml>
+	<address_xml>
 		<addrId>2151</addrId>
 		<street>dPekfa</street>
 		<city>hihih</city>
 		<state>qweqe</state>
 		<zip>012310</zip>
-	</address>
-</address>
+	</address_xml>
+	<address_xml>
+		<addrId>1001</addrId>
+		<street>Seok</street>
+		<city>Seoul</city>
+		<state>CA</state>
+		<zip>12334</zip>
+	</address_xml>
+</address_xml>
